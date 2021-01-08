@@ -1,0 +1,131 @@
+{
+  "4337360760364248": {
+    "CANADA_POST": [
+      {
+        "timestamp": "2020-08-31T19:36:04-04:00",
+        "status": "Electronic information submitted by shipper",
+        "location": { "city": "", "state": "", "postalCode": "" }
+      },
+      {
+        "timestamp": "2020-09-03T11:48:33-05:00",
+        "status": "Item processed",
+        "location": {
+          "city": "WINNIPEG",
+          "state": "MB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-03T21:02:03-05:00",
+        "status": "Item departed",
+        "location": {
+          "city": "WINNIPEG",
+          "state": "MB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-04T06:07:00-06:00",
+        "status": "Item arrived",
+        "location": {
+          "city": "REGINA",
+          "state": "SK",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-04T06:16:02-06:00",
+        "status": "Item departed",
+        "location": {
+          "city": "REGINA",
+          "state": "SK",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-04T15:18:04-06:00",
+        "status": "Item arrived",
+        "location": {
+          "city": "CALGARY",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-05T18:34:09-06:00",
+        "status": "Item processed",
+        "location": {
+          "city": "CALGARY",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-06T17:04:25-04:00",
+        "status": "Shipment received at originating postal facility",
+        "location": {
+          "city": "TORONTO",
+          "state": "ON",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-07T01:24:26-06:00",
+        "status": "Item departed",
+        "location": {
+          "city": "CALGARY",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-07T08:30:59-06:00",
+        "status": "Item arrived",
+        "location": {
+          "city": "LETHBRIDGE",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-07T12:05:02-06:00",
+        "status": "Item processed",
+        "location": {
+          "city": "LETHBRIDGE",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-08T09:39:01-06:00",
+        "status": "Item out for delivery",
+        "location": {
+          "city": "LETHBRIDGE",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      },
+      {
+        "timestamp": "2020-09-08T13:18:47-06:00",
+        "status": "Delivered to your community mailbox, parcel locker or apt./condo mailbox",
+        "location": {
+          "city": "LETHBRIDGE",
+          "state": "AB",
+          "country": "Canada",
+          "postalCode": ""
+        }
+      }
+    ]
+  }
+}

@@ -4,9 +4,14 @@ import "./Sidebar.scss";
 
 export const Sidebar = () => {
   return (
-    <aside className="Sidebar has-background-light is-hidden-mobile py-6">
-      <h1 className="title">This is the sidebar</h1>
-      <small className="subtext">Well, one day</small>
+    <aside className="Sidebar is-hidden-mobile">
+      <header className="Sidebar-header has-background-light">
+        <h2 className="title is-4">📦 Parcel Tracker</h2>
+      </header>
+      <section className="content py-4">
+        <h5>This is the sidebar</h5>
+        <p>Well, one day</p>
+      </section>
     </aside>
   );
 };

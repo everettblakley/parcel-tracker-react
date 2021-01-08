@@ -1,6 +1,16 @@
+@import "../../styles/shared.scss";
+
 .Sidebar {
   min-width: 350px;
   max-width: 25%;
   height: 100vh;
   overflow: hidden;
+  box-shadow: 0px -4px 8px 10px rgba(40, 40, 40, 0.1);
+
+  .Sidebar-header {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
 }
