@@ -1,29 +1,31 @@
-import { action, autorun, makeAutoObservable, runInAction, spy } from "mobx";
+import { action, autorun, makeAutoObservable } from "mobx";
 
 export class RootStore {
   isLoading = false;
   errorMessage: string | undefined;
-  date: Date = new Date();
-  count: number = 0;
+  data: any;
+
+  clear() {
+    this.isLoading = true;
+    setTimeout(action(() => {
+      this.data = null;
+      this.isLoading = false;
+    }), 500);
+  }
 
   load(trackingNumber: string) {
     this.isLoading = true;
     const url = process.env.REACT_APP_API_URL + "/" + trackingNumber;
-    console.log(`URL: ${url}`)
     fetch(url)
-      .then((res) => res.json())
-      .then(console.log)
-      .catch(action((err: Error) => this.errorMessage = err.toString()))
+      .then(res => res.json())
+      .then(action("setData", (data: any) => (this.data = data)))
+      .catch(action((err: any) => (this.errorMessage = err.toString())))
       .finally(action(() => (this.isLoading = false)))
   }
 
   constructor() {
     makeAutoObservable(this);
 
-    spy(event => {
-      if (event.type === "action") {
-        console.log(`${event.name} was called`);
-      }
-    });
+    autorun(() => console.dir(this.data));
   }
 }

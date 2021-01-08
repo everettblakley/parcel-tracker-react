@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.9.1",
+    "bulma-extensions": "^6.2.7",
     "deck.gl": "^8.3.13",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",

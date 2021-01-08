@@ -6,8 +6,14 @@
   transform: translate(-50%, -50%);
   padding: 16px;
   border-radius: 8px;
+  min-width: 300px;
   max-width: 400px;
   box-sizing: content-box;
+
+  &.Form__on-top {
+    top: 18px;
+    transform: translate(-50%);
+  }
 
   .Form-content {
     display: flex;

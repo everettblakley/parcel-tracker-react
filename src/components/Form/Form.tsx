@@ -1,17 +1,17 @@
-import { autorun, computed } from "mobx";
+import { autorun } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { useStore } from "../../stores/store.context";
 import "./Form.scss";
 
 export const Form = observer(() => {
-  const [trackingNumber, setTrackingNumber] = useState("");
+  const [trackingNumber, setTrackingNumber] = useState("4337360760364248");
   const [isDanger, setIsDanger] = useState("");
   const { store } = useStore();
 
   useEffect(() => {
     const dispose = autorun(() => {
-      if (store.errorMessage) {
+      if (!!store.errorMessage) {
         setIsDanger("is-danger");
       } else {
         setIsDanger("");
@@ -22,17 +22,28 @@ export const Form = observer(() => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    store.load(trackingNumber);
+    if (store.data) {
+      store.clear();
+    } else {
+      store.load(trackingNumber);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="Form has-background-light">
+    <form
+      onSubmit={handleSubmit}
+      className={`Form ${
+        store.data && "Form__on-top"
+      } has-background-light box`}
+    >
       <fieldset
         disabled={store.isLoading}
         className="Form-content content is-small"
       >
-        <h1>Parcel Tracker</h1>
-        <p>
+        <h1 className={store.data ? "is-size-5" : "is-size-3"}>
+          Parcel Tracker
+        </h1>
+        <p className={`${store.data && "is-hidden"}`}>
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>
@@ -45,11 +56,12 @@ export const Form = observer(() => {
               value={trackingNumber}
               onChange={(e) => setTrackingNumber(e.target.value)}
               className={`input is-fullwidth ${isDanger}`}
+              required
             />
           </div>
           <div className="control">
             <button className={`button ${isDanger}`} type="submit">
-              Submit
+              {!!store.data ? "Clear" : "Submit"}
             </button>
           </div>
         </div>
