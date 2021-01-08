@@ -1,6 +1,8 @@
 @import "../../styles/shared.scss";
 
 .Sidebar {
+  display: flex;
+  flex-direction: column;
   min-width: 350px;
   max-width: 25%;
   height: 100vh;
@@ -12,5 +14,9 @@
     padding: 16px;
     display: flex;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .Sidebar-content {
+    flex: 1 0;
   }
 }

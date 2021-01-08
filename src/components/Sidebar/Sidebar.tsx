@@ -12,7 +12,7 @@ export const Sidebar = observer(() => {
       <header className="Sidebar-header has-background-light">
         <h2 className="title is-4">📦 Parcel Tracker</h2>
       </header>
-      <section className="content py-4">
+      <section className="Sidebar-content content py-4">
         {store.data ? (
           <pre>
             <code>{JSON.stringify(store.data)}</code>
@@ -21,6 +21,12 @@ export const Sidebar = observer(() => {
           <p>Make a request to see the result</p>
         )}
       </section>
+      <footer className="p-4">
+        <p className="is-size-7 is-italic">
+          &copy; Copyright {new Date().getFullYear()} -{" "}
+          <a href="https://www.github.com/everettblakley">Everett Blakley</a>
+        </p>
+      </footer>
     </aside>
   );
 });
