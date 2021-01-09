@@ -1,9 +1,11 @@
+import { observer } from "mobx-react";
 import React from "react";
+import { ParcelList } from "../Parcel/ParcelList";
 
-export const Drawer = () => {
+export const Drawer = observer(() => {
   return (
     <section className="Drawer has-text-centered is-hidden-tablet has-background-light">
-      <h3 className="title">This is the drawer</h3>
+      <ParcelList />
     </section>
   );
-};
+});

@@ -18,5 +18,11 @@
 
   .Sidebar-content {
     flex: 1 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .Sidebar-footer {
+    box-shadow: -2px 0px 4px 5px rgba(40, 40, 40, 0.1);
   }
 }

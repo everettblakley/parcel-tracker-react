@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useStore } from "../../stores/store.context";
 
 import "./Sidebar.scss";
+import { ParcelList } from "../Parcel/ParcelList";
 
 export const Sidebar = observer(() => {
   const { store } = useStore();
@@ -13,15 +14,16 @@ export const Sidebar = observer(() => {
         <h2 className="title is-4">📦 Parcel Tracker</h2>
       </header>
       <section className="Sidebar-content content py-4">
-        {store.data ? (
-          <pre>
-            <code>{JSON.stringify(store.data)}</code>
-          </pre>
-        ) : (
-          <p>Make a request to see the result</p>
-        )}
+        <ParcelList />
       </section>
-      <footer className="p-4">
+      <footer className="Sidebar-footer p-2 has-background-light">
+        <a
+          className="is-size-7 text-muted"
+          href="https://www.github.com/everettblakley/parcel-tracker-react"
+          title="source code"
+        >
+          Check out the code on Github
+        </a>
         <p className="is-size-7 is-italic">
           &copy; Copyright {new Date().getFullYear()} -{" "}
           <a href="https://www.github.com/everettblakley">Everett Blakley</a>
