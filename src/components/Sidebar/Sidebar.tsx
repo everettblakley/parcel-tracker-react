@@ -1,15 +1,15 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { StopList } from "../Location/LocationList";
+import { StopList } from "../Locations/LocationList";
 import "./Sidebar.scss";
 
-export const Sidebar = observer(() => {
+export const Sidebar = observer(function Sidebar() {
   return (
     <aside className="Sidebar is-hidden-mobile">
       <header className="Sidebar-header has-background-light">
         <h2 className="title is-4">📦 Parcel Tracker</h2>
       </header>
-      <section className="Sidebar-content content py-4">
+      <section className="Sidebar-content content py-4 mb-0">
         <StopList />
       </section>
       <footer className="Sidebar-footer p-2 has-background-light">

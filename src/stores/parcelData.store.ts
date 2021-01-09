@@ -6,7 +6,7 @@ import { RootStore } from './root.store';
 export class ParcelDataStore {
   rootStore: RootStore;
 
-  get trackingEvents(): ParcelData[] {
+  get data(): ParcelData[] {
     if (!this.rootStore.data) {
       return [];
     }
@@ -17,6 +17,6 @@ export class ParcelDataStore {
     makeAutoObservable(this);
 
     this.rootStore = rootStore;
-    autorun(() => console.log(this.trackingEvents));
+    autorun(() => console.log(this.data));
   }
 }

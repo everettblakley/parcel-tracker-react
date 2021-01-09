@@ -1,24 +1,20 @@
-import { autorun } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { useStore } from "../../stores/store.context";
 import "./Form.scss";
 
-export const Form = observer(() => {
+export const Form = observer(function Form() {
   const [trackingNumber, setTrackingNumber] = useState("4337360760364248");
   const [isDanger, setIsDanger] = useState("");
   const { store } = useStore();
 
   useEffect(() => {
-    const dispose = autorun(() => {
-      if (!!store.errorMessage) {
-        setIsDanger("is-danger");
-      } else {
-        setIsDanger("");
-      }
-    });
-    return () => dispose();
-  }, []);
+    if (!!store.errorMessage) {
+      setIsDanger("is-danger");
+    } else {
+      setIsDanger("");
+    }
+  }, [store.errorMessage]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -10,7 +10,7 @@ import "./App.scss";
 
 const store = new RootStore();
 
-const App = observer(() => {
+const App = observer(function App() {
   return (
     <StoreProvider store={store}>
       <div className="App has-text-centered">

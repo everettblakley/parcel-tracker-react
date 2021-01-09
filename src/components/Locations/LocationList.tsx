@@ -5,10 +5,9 @@ import { ParcelData, Stop } from "../../models";
 import { useStore } from "../../stores/store.context";
 import "./LocationList.scss";
 
-const StopView = observer(({ stop }: { stop: Stop }) => {
+const StopView = observer(function StopView({ stop }: { stop: Stop }) {
   const [expandable] = useState(stop.events.length > 1);
   const [title] = useState(() => {
-    console.log(stop);
     const location = stop?.location?.toString();
     if (location) {
       return location;
@@ -31,8 +30,12 @@ const StopView = observer(({ stop }: { stop: Stop }) => {
     }
   });
 
+  const handleClick = () => {
+    console.log(stop);
+  };
+
   return (
-    <li className="level box mb-2">
+    <li className="level box mb-2" onClick={handleClick}>
       <div className="level-item is-flex-shrink-1 is-flex-grow-0 is-flex-direction-column is-align-items-flex-start">
         <h4 className="is-size-6 mb-1">{title}</h4>
         <small>{timeframe}</small>
@@ -46,7 +49,7 @@ const StopView = observer(({ stop }: { stop: Stop }) => {
   );
 });
 
-const Courier = observer(({ data }: { data: ParcelData }) => {
+const Courier = observer(function Courier({ data }: { data: ParcelData }) {
   return (
     <>
       <h5>Delivered by {data.courier}</h5>
@@ -59,7 +62,11 @@ const Courier = observer(({ data }: { data: ParcelData }) => {
   );
 });
 
-const CourierList = observer(({ data }: { data: ParcelData[] }) => {
+const CourierList = observer(function CourierList({
+  data,
+}: {
+  data: ParcelData[];
+}) {
   return (
     <section>
       {data.map((d) => (
@@ -69,20 +76,16 @@ const CourierList = observer(({ data }: { data: ParcelData[] }) => {
   );
 });
 
-export const StopList = observer(() => {
+export const StopList = observer(function StopList() {
   const { store } = useStore();
-  // const { parcelDataStore } = store;
-  const { trackingEvents } = store.parcelDataStore;
-
-  // useEffect(() => {
-  //   const dispose = autorun(() => console.log(parcelDataStore.trackingEvents));
-  //   return () => dispose();
-  // }, []);
+  const { data } = store.parcelDataStore;
 
   return (
     <div className="has-text-left px-3">
-      {trackingEvents.length !== 0 ? (
-        <CourierList data={trackingEvents} />
+      {data.length === 1 ? (
+        <Courier data={data[0]} />
+      ) : data.length > 1 ? (
+        <CourierList data={data} />
       ) : (
         <p>Make a request to see the result</p>
       )}
