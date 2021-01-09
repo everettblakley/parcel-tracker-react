@@ -1,4 +1,4 @@
-import { action, autorun, makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { ParcelDataStore } from './parcelData.store';
 
 export class RootStore {
@@ -29,6 +29,5 @@ export class RootStore {
     makeAutoObservable(this);
 
     this.parcelDataStore = new ParcelDataStore(this);
-    autorun(() => console.dir(this.data));
   }
 }

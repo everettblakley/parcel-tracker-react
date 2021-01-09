@@ -20,11 +20,19 @@ export class Location {
     return [this.city, this.state, this.country, this.postalCode].filter(Boolean).join(", ");
   }
 
-  static isLocation(location: Partial<Location>): boolean {
+  static isLocation(location: Partial<Location>): location is Location {
     const l = (location as Location);
-    return l.city !== undefined || l.country !== undefined || l.postalCode !== undefined || l.state !== undefined;
+    return l.city !== undefined ||
+      l.country !== undefined ||
+      l.postalCode !== undefined ||
+      l.state !== undefined;
   }
 }
+
+
+export type RawTrackingEvent = Record<string, string | Record<string, string | undefined>>;
+
+export type RawParcelData = Record<string, RawTrackingEvent[]>;
 
 export interface TrackingEvent {
   timestamp: Moment;
@@ -33,6 +41,13 @@ export interface TrackingEvent {
 }
 
 export interface ParcelData {
-  carrier: string;
+  courier: string;
+  stops: Stop[];
+}
+
+export interface Stop {
+  startDate: Moment;
+  endDate?: Moment;
   events: TrackingEvent[];
+  location?: Location | string;
 }

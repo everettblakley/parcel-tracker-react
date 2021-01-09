@@ -1,6 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import { autorun, makeAutoObservable } from "mobx";
 import { ParcelData } from '../models';
-import { rawDataToTrackingEvent } from '../utilities';
+import { parseParcelData } from '../utilities';
 import { RootStore } from './root.store';
 
 export class ParcelDataStore {
@@ -10,12 +10,13 @@ export class ParcelDataStore {
     if (!this.rootStore.data) {
       return [];
     }
-    return rawDataToTrackingEvent(this.rootStore.data);
+    return parseParcelData(this.rootStore.data);
   }
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
 
     this.rootStore = rootStore;
+    autorun(() => console.log(this.trackingEvents));
   }
 }

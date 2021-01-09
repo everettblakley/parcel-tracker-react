@@ -1,2 +1,2 @@
 export * from "./text.utilities";
-export * from "./parcelPlace.utilities";
+export * from "./data.utilities";
