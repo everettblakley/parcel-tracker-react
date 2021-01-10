@@ -1,12 +1,32 @@
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useStore } from "../../stores/store.context";
+import { useQueryParams } from "../../hooks";
 import "./Form.scss";
 
 export const Form = observer(function Form() {
-  const [trackingNumber, setTrackingNumber] = useState("4337360760364248");
-  const [isDanger, setIsDanger] = useState("");
+  // Hooks
+  const history = useHistory();
+  const queryParams = useQueryParams();
+  const location = useLocation();
   const { store } = useStore();
+  const trackingNumberParam = queryParams.get("trackingNumber");
+  // State
+  const [trackingNumber, setTrackingNumber] = useState(
+    trackingNumberParam || ""
+  );
+  const [isDanger, setIsDanger] = useState("");
+  const [clearOrSubmit, setClearOrSubmit] = useState<"Clear" | "Submit">(
+    "Submit"
+  );
+
+  // Effects
+  useEffect(() => {
+    if (trackingNumberParam && location.pathname === "/") {
+      setTrackingNumber(trackingNumberParam);
+    }
+  }, [trackingNumberParam, location]);
 
   useEffect(() => {
     if (!!store.errorMessage) {
@@ -16,12 +36,26 @@ export const Form = observer(function Form() {
     }
   }, [store.errorMessage]);
 
+  useEffect(() => {
+    if (store.data) {
+      if (store.trackingNumber === trackingNumber) {
+        setClearOrSubmit("Clear");
+      } else {
+        setClearOrSubmit("Submit");
+      }
+    } else {
+      setClearOrSubmit("Submit");
+    }
+  }, [store.data, store.trackingNumber, trackingNumber]);
+
+  // Handlers
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (store.data) {
-      store.clear();
+    if (clearOrSubmit === "Clear") {
+      setTrackingNumber("");
+      history.push("/");
     } else {
-      store.load(trackingNumber);
+      history.push(`/?trackingNumber=${trackingNumber}`);
     }
   };
 
@@ -43,13 +77,14 @@ export const Form = observer(function Form() {
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>
+        <p>4337360760364248</p>
         <div className="field has-addons">
           <div className="control is-expanded">
             <input
               id="trackingNumber"
               type="text"
               placeholder="Tracking Number"
-              value={trackingNumber}
+              value={trackingNumber || ""}
               onChange={(e) => setTrackingNumber(e.target.value)}
               className={`input is-fullwidth ${isDanger}`}
               required
@@ -57,7 +92,7 @@ export const Form = observer(function Form() {
           </div>
           <div className="control">
             <button className={`button ${isDanger}`} type="submit">
-              {!!store.data ? "Clear" : "Submit"}
+              {clearOrSubmit}
             </button>
           </div>
         </div>

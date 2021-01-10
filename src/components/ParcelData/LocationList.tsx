@@ -76,7 +76,7 @@ const CourierList = observer(function CourierList({
   );
 });
 
-export const StopList = observer(function StopList() {
+export const ParcelDataList = observer(function ParcelDataList() {
   const { store } = useStore();
   const { data } = store.parcelDataStore;
 
