@@ -1,4 +1,4 @@
-import { autorun, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { ParcelData } from '../models';
 import { parseParcelData } from '../utilities';
 import { RootStore } from './root.store';
@@ -17,6 +17,5 @@ export class ParcelDataStore {
     makeAutoObservable(this);
 
     this.rootStore = rootStore;
-    autorun(() => console.log(this.data));
   }
 }

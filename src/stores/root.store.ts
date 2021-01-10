@@ -25,12 +25,12 @@ export class RootStore {
     const url = process.env.REACT_APP_API_URL + "/" + trackingNumber;
     fetch(url)
       .then((response: Response) => {
-        console.log(response);
         if (response.ok) {
           return response.json();
         } else if (response.status === 404) {
           throw new Error("Couldn't find a parcel with that tracking number");
         } else {
+          console.error(response);
           throw new Error("Hmmm... Something went wrong");
         }
       })
