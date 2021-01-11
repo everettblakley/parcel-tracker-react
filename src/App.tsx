@@ -1,13 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import "./App.scss";
 import { Loading } from "./components/Loading";
 import { Map } from "./components/Map";
 import { Sidebar } from "./components/Sidebar";
 import { useQueryParams } from "./hooks";
 import { RootStore } from "./stores/root.store";
 import { StoreProvider } from "./stores/store.context";
-import "./App.scss";
 
 const store = new RootStore();
 

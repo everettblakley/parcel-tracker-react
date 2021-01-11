@@ -1,12 +1,12 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { ParcelData, Stop } from "../../models";
-import { StopView } from "./StopView";
+import { ParcelData } from "../../models";
+import { StopsTimeline } from "./Timeline";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,11 +58,7 @@ export const CourierView = observer(function CourierView({
         ) : null}
       </ListItem>
       <Collapse in={!collapsed} timeout="auto" unmountOnExit>
-        <ul className="mt-0 ml-0">
-          {data.stops.map((stop: Stop) => (
-            <StopView key={`${stop.startDate.toString()}`} stop={stop} />
-          ))}
-        </ul>
+        <StopsTimeline stops={data.stops} />
       </Collapse>
     </>
   );

@@ -1,10 +1,47 @@
-import React, { useState } from "react";
+import TimelineConnector from "@material-ui/lab/TimelineConnector";
+import TimelineContent from "@material-ui/lab/TimelineContent";
+import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
+import TimelineDot from "@material-ui/lab/TimelineDot";
+import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import { observer } from "mobx-react";
-import { Stop } from "../../models";
-import { FaCaretDown } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaFlag } from "react-icons/fa";
+import { RiMapPin2Fill } from "react-icons/ri";
+import { Stop, TrackingEvent } from "../../models";
 
-export const StopView = observer(function StopView({ stop }: { stop: Stop }) {
-  const [expandable] = useState(stop.events.length > 1);
+export const EventView = observer(function EventView({
+  event,
+  displayConnector,
+}: {
+  event: TrackingEvent;
+  displayConnector: boolean;
+}) {
+  return (
+    <TimelineItem>
+      <TimelineOppositeContent>
+        <p className="is-size-7">{event.timestamp.format("h:mm a")}</p>
+      </TimelineOppositeContent>
+      <TimelineSeparator>
+        <TimelineDot color="secondary" />
+        {displayConnector && <TimelineConnector />}
+      </TimelineSeparator>
+      <TimelineContent>
+        <h6 className="is-size-6 mb-0 has-text-weight-normal">
+          {event.status}
+        </h6>
+      </TimelineContent>
+    </TimelineItem>
+  );
+});
+
+export const StopView = observer(function StopView({
+  stop,
+  displayConnector,
+}: {
+  stop: Stop;
+  displayConnector: boolean;
+}) {
   const [title] = useState(() => {
     const location = stop?.location?.toString();
     if (location) {
@@ -14,35 +51,38 @@ export const StopView = observer(function StopView({ stop }: { stop: Stop }) {
     }
     return stop.startDate.toString();
   });
-  const [timeframe] = useState(() => {
-    if (!stop.endDate) {
-      return stop.startDate.format("dddd, MMMM Do, YYYY [at] h:mm a");
-    } else {
-      if (stop.startDate.isSame(stop.endDate, "day")) {
-        return stop.startDate.format("dddd, MMMM Do, YYYY");
-      } else {
-        return `${stop.startDate.format(
-          "dddd, MMMM Do"
-        )} - ${stop.endDate.format("Do, YYYY")}`;
-      }
-    }
-  });
-
-  const handleClick = () => {
-    console.log(stop);
-  };
 
   return (
-    <li className="level box mb-2" onClick={handleClick}>
-      <div className="level-item is-flex-shrink-1 is-flex-grow-0 is-flex-direction-column is-align-items-flex-start">
-        <h4 className="is-size-6 mb-1">{title}</h4>
-        <small>{timeframe}</small>
-      </div>
-      {expandable && (
-        <div className="level-item level-right has-text-dark">
-          <FaCaretDown />
-        </div>
-      )}
-    </li>
+    <>
+      <TimelineItem>
+        <TimelineOppositeContent>
+          <p className="is-size-7">{stop.startDate.format("MMM Do, YYYY")}</p>
+          {stop.events.length === 1 && (
+            <p className="is-size-7">{stop.startDate.format("h:mm a")}</p>
+          )}
+        </TimelineOppositeContent>
+        <TimelineSeparator>
+          <TimelineDot color="secondary">
+            {displayConnector ? <RiMapPin2Fill /> : <FaFlag />}
+          </TimelineDot>
+          {(stop.events.length > 1 || displayConnector) && (
+            <TimelineConnector />
+          )}
+        </TimelineSeparator>
+        <TimelineContent>
+          <h4 className="is-size-6 mb-0 has-text-weight-medium">{title}</h4>
+        </TimelineContent>
+      </TimelineItem>
+      {stop.events.length > 1 &&
+        stop.events.map((event, index) => (
+          <EventView
+            key={`${event.status}-${index}`}
+            event={event}
+            displayConnector={
+              displayConnector || index < stop.events.length - 1
+            }
+          />
+        ))}
+    </>
   );
 });

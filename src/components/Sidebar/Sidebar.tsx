@@ -9,7 +9,7 @@ export const Sidebar = observer(function Sidebar() {
       <header className="Sidebar-header has-background-light">
         <h2 className="title is-4">📦 Parcel Tracker</h2>
       </header>
-      <section className="Sidebar-content content py-4 mb-0">
+      <section className="Sidebar-content py-4 mb-0">
         <ParcelDataList />
       </section>
       <footer className="Sidebar-footer p-2 has-background-light">
