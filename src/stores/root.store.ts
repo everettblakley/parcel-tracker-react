@@ -1,9 +1,11 @@
 import { action, makeAutoObservable } from "mobx";
 import { RawParcelData } from '../models';
 import { ParcelDataStore } from './parcelData.store';
+import { UIStore } from './ui.store';
 
 export class RootStore {
   parcelDataStore: ParcelDataStore;
+  uiStore: UIStore;
   isLoading = false;
   errorMessage: string | null = null;
   data: RawParcelData | null = null;
@@ -46,5 +48,6 @@ export class RootStore {
     makeAutoObservable(this);
 
     this.parcelDataStore = new ParcelDataStore(this);
+    this.uiStore = new UIStore(this);
   }
 }

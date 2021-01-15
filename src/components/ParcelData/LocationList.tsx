@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import "./LocationList.scss";
 import List from "@material-ui/core/List";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { About } from "../About";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -43,11 +44,11 @@ export const ParcelDataList = observer(function ParcelDataList() {
   return (
     <div className="has-text-left px-3">
       {data.length === 1 ? (
-        <CourierView data={data[0]} collapsable={true} />
+        <CourierView data={data[0]} collapsable={false} />
       ) : data.length > 1 ? (
         <CourierList data={data} />
       ) : (
-        <p>Make a request to see the result</p>
+        <About />
       )}
     </div>
   );

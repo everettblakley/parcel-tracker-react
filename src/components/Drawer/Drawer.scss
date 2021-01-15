@@ -1,0 +1,30 @@
+.Drawer {
+  width: 100%;
+  box-shadow: 0px -4px 8px 10px rgba(40, 40, 40, 0.1);
+  padding: 12px 24px 0;
+  max-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    width: 100%;
+    > svg.Drawer-button {
+      transition: all 200ms ease-in-out;
+      &.Drawer-button__closed {
+        transform: rotate(0deg);
+      }
+      &.Drawer-button__open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .Drawer-content {
+    transition: all 200ms ease-in-out;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
