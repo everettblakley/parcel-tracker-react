@@ -52,5 +52,5 @@ export interface Stop {
   events: TrackingEvent[];
   location?: Location | string;
   selected: boolean;
-  geoLocation?: any;
+  feature?: GeoJSON.Feature;
 }

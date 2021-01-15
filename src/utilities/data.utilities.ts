@@ -1,7 +1,9 @@
+import { MapiResponse } from '@mapbox/mapbox-sdk/lib/classes/mapi-response';
 import { toJS } from 'mobx';
-import { ParcelData, TrackingEvent, Location, Stop, RawParcelData, RawTrackingEvent } from '../models';
-import { replaceUnderScores, toSentenceCase } from './text.utilities';
 import moment from "moment";
+import { Location, ParcelData, RawParcelData, RawTrackingEvent, Stop, TrackingEvent } from '../models';
+import { geocoding, mapbox, mapboxSdk } from './mapbox';
+import { replaceUnderScores, toSentenceCase } from './text.utilities';
 
 export const courierName = (name?: string) => {
   if (!name) {
@@ -73,9 +75,44 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
         stop.events = removedEvents;
         stop.endDate = removedEvents[removedEvents.length - 1].timestamp;
       }
+
+      const feature = await getGeolocation(event?.location?.toString());
+      if (feature) {
+        stop.feature = feature;
+      }
     }
     stops.push(stop);
   }
 
   return Promise.resolve(stops);
+}
+
+export const getGeolocation = async (location: string): Promise<GeoJSON.Feature | undefined> => {
+  const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
+  const geocodingClient = geocoding(mapboxClient);
+  if (!geocodingClient || !location) {
+    return undefined;
+  }
+  return geocodingClient
+    .forwardGeocode({
+      query: location.toString(),
+      autocomplete: false,
+      limit: 1,
+      mode: "mapbox.places"
+    })
+    .send()
+    .then((response: MapiResponse) => {
+      if (
+        response &&
+        response.body &&
+        response.body.features &&
+        response.body.features.length) {
+        const feature = response.body.features[0] as GeoJSON.Feature;
+        return feature;
+      }
+    })
+    .catch((error: Error) => {
+      console.error(error);
+      return undefined;
+    });
 }

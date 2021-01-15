@@ -38,9 +38,9 @@ describe("parseParcelData", () => {
     const data = {};
     expect(utils.parseParcelData(data)).toStrictEqual([]);
   });
-  test("works for data with string locations", () => {
+  test("works for data with string locations", async () => {
     const data = testData["392404625680"];
-    const newData = utils.parseParcelData(data);
+    const newData = await utils.parseParcelData(data);
     expect(newData).toHaveLength(1);
     const couriers = newData.map((d) => d.courier);
     expect(couriers).toStrictEqual(["Fedex"]);

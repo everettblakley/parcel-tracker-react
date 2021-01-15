@@ -38,6 +38,7 @@ export const Form = observer(function Form() {
 
   useEffect(() => {
     if (store.parcelData.length > 0) {
+      console.log(store.parcelData);
       if (store.trackingNumber === trackingNumber) {
         setClearOrSubmit("Clear");
       } else {
