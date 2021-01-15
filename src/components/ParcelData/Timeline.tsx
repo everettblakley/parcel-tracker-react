@@ -19,7 +19,6 @@ const GlobalCss = withStyles({
       paddingTop: "0",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
     },
     ".MuiTimelineSeparator-root": {
       minWidth: "30px",

@@ -43,6 +43,7 @@ export interface TrackingEvent {
 export interface ParcelData {
   courier: string;
   stops: Stop[];
+  active: boolean;
 }
 
 export interface Stop {
@@ -50,4 +51,6 @@ export interface Stop {
   endDate?: Moment;
   events: TrackingEvent[];
   location?: Location | string;
+  selected: boolean;
+  geoLocation?: any;
 }

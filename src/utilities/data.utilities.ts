@@ -12,16 +12,17 @@ export const courierName = (name?: string) => {
   return name;
 };
 
-export const parseParcelData = (rawData: RawParcelData): ParcelData[] => {
+export const parseParcelData = async (rawData: RawParcelData): Promise<ParcelData[]> => {
   // Get a raw JS array of the courier names 
   const couriers = Object.keys(toJS(rawData));
-  const parcelData = couriers.reduce<ParcelData[]>((result, courier) => {
+  let parcelData: ParcelData[] = [];
+  for (const courier of couriers) {
     const rawEvents: RawTrackingEvent[] = rawData[courier];
     const events = parseTrackingEvents(rawEvents);
-    const stops = parseStops(events);
+    const stops = await parseStops(events);
     const name = courierName(courier) as string;
-    return [...result, { "courier": name, "stops": stops }]
-  }, [])
+    parcelData.push({ courier: name, stops, active: couriers.length === 1 });
+  }
   return parcelData;
 }
 
@@ -37,7 +38,7 @@ export const parseTrackingEvents = (rawEvents: RawTrackingEvent[]): TrackingEven
   return events;
 }
 
-export const parseStops = (events: TrackingEvent[]): Stop[] => {
+export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
   const stops: Stop[] = [];
   // Copy the events
   let data = [...events];
@@ -51,7 +52,7 @@ export const parseStops = (events: TrackingEvent[]): Stop[] => {
   let event;
   // Remove first event from array
   while ((event = data.shift())) {
-    let stop: Stop = { startDate: event.timestamp, events: [event] };
+    let stop: Stop = { startDate: event.timestamp, events: [event], selected: false };
     if (event.location) {
       stop.location = event.location;
       const locations: Set<string> = new Set([event.location.toString()]);
@@ -76,5 +77,5 @@ export const parseStops = (events: TrackingEvent[]): Stop[] => {
     stops.push(stop);
   }
 
-  return stops;
+  return Promise.resolve(stops);
 }

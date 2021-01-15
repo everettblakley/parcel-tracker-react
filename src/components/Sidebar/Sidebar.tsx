@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { Footer } from "../Footer";
-import { ParcelDataList } from "../ParcelData/LocationList";
+import { ParcelDataList } from "../ParcelData/ParcelDataList";
 import "./Sidebar.scss";
 
 export const Sidebar = observer(function Sidebar() {

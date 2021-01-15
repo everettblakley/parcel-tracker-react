@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { autorun, makeAutoObservable, runInAction } from "mobx";
 import { RootStore } from './root.store';
 
 export class UIStore {
@@ -39,5 +39,14 @@ export class UIStore {
     this.rootStore = rootStore;
 
     makeAutoObservable(this);
+
+    // Open the drawer whenever the root store data changes
+    autorun(() => {
+      if (this.rootStore.parcelData !== []) {
+        runInAction(() => this.drawerOpen = true);
+      } else {
+        runInAction(() => this.drawerOpen = false);
+      }
+    })
   }
 }

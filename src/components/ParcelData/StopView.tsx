@@ -1,29 +1,37 @@
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { FaFlag } from "react-icons/fa";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { Stop, TrackingEvent } from "../../models";
+import { useStore } from "../../stores/store.context";
+import "./StopView.scss";
 
 export const EventView = observer(function EventView({
   event,
   displayConnector,
+  selected,
 }: {
   event: TrackingEvent;
   displayConnector: boolean;
+  selected?: boolean;
+  onClick: (args: any) => void;
 }) {
   return (
-    <TimelineItem>
+    <TimelineItem className="StopView">
       <TimelineOppositeContent>
         <p className="is-size-7">{event.timestamp.format("h:mm a")}</p>
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot color="secondary" />
+        <TimelineDot
+          className={`StopIcon ${!!selected ? "selected" : ""}`}
+          color="secondary"
+        />
         {displayConnector && <TimelineConnector />}
       </TimelineSeparator>
       <TimelineContent>
@@ -42,6 +50,8 @@ export const StopView = observer(function StopView({
   stop: Stop;
   displayConnector: boolean;
 }) {
+  const { store } = useStore();
+
   const [title] = useState(() => {
     const location = stop?.location?.toString();
     if (location) {
@@ -52,9 +62,11 @@ export const StopView = observer(function StopView({
     return stop.startDate.toString();
   });
 
+  const handleSelect = () => store.setSelectedStop(stop);
+
   return (
-    <>
-      <TimelineItem>
+    <div onClick={handleSelect}>
+      <TimelineItem className={`StopView ${stop.selected ? "selected" : ""}`}>
         <TimelineOppositeContent>
           <p className="is-size-7">{stop.startDate.format("MMM Do, YYYY")}</p>
           {stop.events.length === 1 && (
@@ -62,7 +74,7 @@ export const StopView = observer(function StopView({
           )}
         </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineDot color="secondary">
+          <TimelineDot className={`StopIcon`} color="secondary">
             {displayConnector ? <RiMapPin2Fill /> : <FaFlag />}
           </TimelineDot>
           {(stop.events.length > 1 || displayConnector) && (
@@ -81,8 +93,10 @@ export const StopView = observer(function StopView({
             displayConnector={
               displayConnector || index < stop.events.length - 1
             }
+            onClick={handleSelect}
+            selected={stop.selected}
           />
         ))}
-    </>
+    </div>
   );
 });

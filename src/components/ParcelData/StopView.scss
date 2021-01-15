@@ -1,0 +1,20 @@
+.StopView {
+  background: white;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    background: whitesmoke;
+  }
+
+  &.selected > * {
+    filter: hue-rotate(45deg);
+  }
+}
+
+.StopIcon {
+  transition: all 200ms ease-in-out;
+
+  &.selected {
+    filter: hue-rotate(45deg);
+  }
+}

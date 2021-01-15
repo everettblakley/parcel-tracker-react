@@ -19,6 +19,7 @@
     "bulma-extensions": "^6.2.7",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
+    "mobx-utils": "^6.0.3",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",

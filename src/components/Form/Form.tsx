@@ -37,7 +37,7 @@ export const Form = observer(function Form() {
   }, [store.errorMessage]);
 
   useEffect(() => {
-    if (store.data) {
+    if (store.parcelData.length > 0) {
       if (store.trackingNumber === trackingNumber) {
         setClearOrSubmit("Clear");
       } else {
@@ -46,7 +46,7 @@ export const Form = observer(function Form() {
     } else {
       setClearOrSubmit("Submit");
     }
-  }, [store.data, store.trackingNumber, trackingNumber]);
+  }, [store.parcelData, store.trackingNumber, trackingNumber]);
 
   // Handlers
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,17 +63,17 @@ export const Form = observer(function Form() {
     <form
       onSubmit={handleSubmit}
       className={`Form ${
-        store.data && "Form__on-top"
+        store.parcelData.length > 0 && "Form__on-top"
       } has-background-light box`}
     >
       <fieldset
         disabled={store.isLoading}
         className="Form-content content is-small"
       >
-        <h1 className={store.data ? "is-size-5" : "is-size-3"}>
+        <h1 className={store.parcelData ? "is-size-5" : "is-size-3"}>
           Parcel Tracker
         </h1>
-        <p className={`${store.data && "is-hidden"}`}>
+        <p className={`${store.parcelData && "is-hidden"}`}>
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>
