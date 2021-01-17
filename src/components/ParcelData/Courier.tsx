@@ -2,6 +2,7 @@ import Collapse from "@material-ui/core/Collapse";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
 import { FaCaretDown } from "react-icons/fa";
@@ -37,7 +38,7 @@ export const CourierView = observer(function CourierView({
 
   const handleClickCollapse = () => {
     if (!!collapsable) {
-      store.setActiveCourier(data);
+      runInAction(() => (store.activeCourier = data));
     }
   };
 

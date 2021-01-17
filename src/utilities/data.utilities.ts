@@ -87,7 +87,7 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
   return Promise.resolve(stops);
 }
 
-export const getGeolocation = async (location: string): Promise<GeoJSON.Feature | undefined> => {
+export const getGeolocation = async (location: string): Promise<GeoJSON.Point | undefined> => {
   const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
   const geocodingClient = geocoding(mapboxClient);
   if (!geocodingClient || !location) {
@@ -107,8 +107,14 @@ export const getGeolocation = async (location: string): Promise<GeoJSON.Feature 
         response.body &&
         response.body.features &&
         response.body.features.length) {
-        const feature = response.body.features[0] as GeoJSON.Feature;
-        return feature;
+        const feature = response.body.features[0];
+        if (!feature.coordinates) {
+          if ("geometry" in (feature as any)) {
+            feature.coordinates = feature.geometry.coordinates;
+          }
+        }
+        console.log(feature);
+        return feature as GeoJSON.Point;
       }
     })
     .catch((error: Error) => {

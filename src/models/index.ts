@@ -1,5 +1,5 @@
-import { toSentenceCase } from "../utilities";
 import { Moment } from "moment";
+import { toSentenceCase } from "../utilities";
 
 export class Location {
   city: string | undefined = undefined;
@@ -52,5 +52,5 @@ export interface Stop {
   events: TrackingEvent[];
   location?: Location | string;
   selected: boolean;
-  feature?: GeoJSON.Feature;
+  feature?: GeoJSON.Point
 }

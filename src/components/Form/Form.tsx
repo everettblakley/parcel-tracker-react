@@ -38,7 +38,6 @@ export const Form = observer(function Form() {
 
   useEffect(() => {
     if (store.parcelData.length > 0) {
-      console.log(store.parcelData);
       if (store.trackingNumber === trackingNumber) {
         setClearOrSubmit("Clear");
       } else {
@@ -74,7 +73,7 @@ export const Form = observer(function Form() {
         <h1 className={store.parcelData ? "is-size-5" : "is-size-3"}>
           Parcel Tracker
         </h1>
-        <p className={`${store.parcelData && "is-hidden"}`}>
+        <p className={`${store.parcelData.length && "is-hidden"}`}>
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>

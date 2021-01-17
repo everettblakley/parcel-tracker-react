@@ -9,6 +9,7 @@
   min-width: 300px;
   max-width: 400px;
   box-sizing: content-box;
+  z-index: 1;
 
   &.Form__on-top {
     top: 18px;
