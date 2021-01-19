@@ -2,8 +2,10 @@ import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useStore } from "../../stores/store.context";
+import Slider from "@material-ui/core/Slider";
 import { useQueryParams } from "../../hooks";
 import "./Form.scss";
+import { runInAction } from "mobx";
 
 export const Form = observer(function Form() {
   // Hooks
@@ -99,6 +101,19 @@ export const Form = observer(function Form() {
         {store.errorMessage && (
           <p className="has-text-danger">{store.errorMessage}</p>
         )}
+        <div className="field">
+          <Slider
+            defaultValue={store.pitch}
+            step={5}
+            marks
+            min={0}
+            max={60}
+            value={store.pitch}
+            onChange={(e, value) =>
+              runInAction(() => (store.pitch = value as number))
+            }
+          />
+        </div>
       </fieldset>
     </form>
   );

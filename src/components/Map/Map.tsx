@@ -1,36 +1,60 @@
 import { StaticMap } from "react-map-gl";
 import DeckGL from "deck.gl";
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "../../stores/store.context";
 import { Drawer } from "../Drawer";
 import { Form } from "../Form/Form";
 import "./Map.scss";
 import { Arc } from "../../stores/root.store";
+import { ViewStateProps } from "@deck.gl/core/lib/deck";
+import { FlyToInterpolator } from "deck.gl";
 
 const INITIAL_VIEW_STATE = {
-  longitude: -122.41669,
-  latitude: 37.7853,
-  zoom: 13,
+  longitude: 0,
+  latitude: 0,
+  zoom: 1,
   pitch: 0,
   bearing: 0,
 };
 
 export const Map = observer(function Map() {
   const { store } = useStore();
+  const [viewState, setViewState] = useState<ViewStateProps>(
+    INITIAL_VIEW_STATE
+  );
 
   useEffect(() => {
-    console.log(store.arcsLayer);
-  }, [store.arcsLayer]);
+    document
+      .getElementById("deckgl-wrapper")
+      ?.addEventListener("contextmenu", (e) => e.preventDefault());
+  }, []);
+
+  useEffect(() => {
+    let viewStateProps = store.viewStateProps;
+    if (viewStateProps) {
+      viewStateProps = {
+        ...viewStateProps,
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionDuration: 500,
+      };
+      console.log(viewStateProps);
+      setViewState(viewStateProps);
+    }
+  }, [store.viewStateProps]);
 
   const layers = store.arcsLayer ? [store.arcsLayer] : [];
+
+  const handleViewStateChange = (event: any) => setViewState(event.viewState);
 
   return (
     <main className="Map">
       <section className="Map-content">
         <Form />
         <DeckGL
-          initialViewState={INITIAL_VIEW_STATE}
+          viewState={viewState || INITIAL_VIEW_STATE}
+          // initialViewState={INITIAL_VIEW_STATE}
+          onViewStateChange={handleViewStateChange}
           layers={layers}
           controller={true}
           getTooltip={({ object }) => {

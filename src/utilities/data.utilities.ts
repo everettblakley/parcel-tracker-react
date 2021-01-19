@@ -1,4 +1,5 @@
 import { MapiResponse } from '@mapbox/mapbox-sdk/lib/classes/mapi-response';
+import { Feature, Point, point } from '@turf/helpers';
 import { toJS } from 'mobx';
 import moment from "moment";
 import { Location, ParcelData, RawParcelData, RawTrackingEvent, Stop, TrackingEvent } from '../models';
@@ -87,7 +88,7 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
   return Promise.resolve(stops);
 }
 
-export const getGeolocation = async (location: string): Promise<GeoJSON.Point | undefined> => {
+export const getGeolocation = async (location: string): Promise<Feature<Point> | undefined> => {
   const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
   const geocodingClient = geocoding(mapboxClient);
   if (!geocodingClient || !location) {
@@ -113,8 +114,7 @@ export const getGeolocation = async (location: string): Promise<GeoJSON.Point | 
             feature.coordinates = feature.geometry.coordinates;
           }
         }
-        console.log(feature);
-        return feature as GeoJSON.Point;
+        return point(feature.coordinates);
       }
     })
     .catch((error: Error) => {

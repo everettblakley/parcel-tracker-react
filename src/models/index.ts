@@ -1,3 +1,4 @@
+import { Feature, Point } from '@turf/helpers';
 import { Moment } from "moment";
 import { toSentenceCase } from "../utilities";
 
@@ -52,5 +53,5 @@ export interface Stop {
   events: TrackingEvent[];
   location?: Location | string;
   selected: boolean;
-  feature?: GeoJSON.Point
+  feature?: Feature<Point>
 }

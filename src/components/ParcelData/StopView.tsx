@@ -62,7 +62,7 @@ export const StopView = observer(function StopView({
     return stop.startDate.toString();
   });
 
-  const handleSelect = () => store.setSelectedStop(stop);
+  const handleSelect = () => (store.selectedStop = stop);
 
   return (
     <div onClick={handleSelect}>
