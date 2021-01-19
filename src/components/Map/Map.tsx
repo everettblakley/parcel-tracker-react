@@ -38,7 +38,6 @@ export const Map = observer(function Map() {
         transitionInterpolator: new FlyToInterpolator(),
         transitionDuration: 500,
       };
-      console.log(viewStateProps);
       setViewState(viewStateProps);
     }
   }, [store.viewStateProps]);

@@ -3,13 +3,13 @@ import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import centroid from "@turf/centroid";
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
-import { ArcLayer, Position } from "deck.gl";
+import { ArcLayer, Position2D } from 'deck.gl';
 import { action, makeAutoObservable } from "mobx";
 import { ParcelData, RawParcelData, Stop } from '../models';
 import { parseParcelData } from '../utilities';
 import { UIStore } from './ui.store';
 
-type Endpoint = { name: string; coordindates: Position; }
+type Endpoint = { name: string; coordindates: Position2D; }
 
 export type Arc = {
   from: Endpoint;
@@ -157,11 +157,11 @@ export class RootStore {
         const currentArc: Arc = {
           from: {
             name: current.location ? current.location.toString() : current.events[0].status,
-            coordindates: current.feature?.geometry.coordinates as Position
+            coordindates: current.feature?.geometry.coordinates as Position2D
           },
           to: {
             name: next.location ? next.location.toString() : current.events[0].status,
-            coordindates: next.feature?.geometry.coordinates as Position
+            coordindates: next.feature?.geometry.coordinates as Position2D
           }
         }
         return [...output, currentArc];
@@ -178,8 +178,10 @@ export class RootStore {
     return new ArcLayer({
       id: "stops",
       data: this.arcs,
-      getSourcePosition: (d) => (d as Arc).from.coordindates as Position,
-      getTargetPosition: (d) => (d as Arc).to.coordindates as Position,
+      // Have to add a 3rd coordinate, as MobX was complaining about checking
+      // out of bounds
+      getSourcePosition: (d) => [...(d as Arc).from.coordindates, 0],
+      getTargetPosition: (d) => [...(d as Arc).to.coordindates, 0],
       getHeight: 0.25,
       getWidth: 3
     })
