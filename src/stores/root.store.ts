@@ -3,7 +3,7 @@ import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import centroid from "@turf/centroid";
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
-import { ArcLayer, Position2D } from 'deck.gl';
+import { ArcLayer, PolygonLayer, Position2D } from 'deck.gl';
 import { action, makeAutoObservable } from "mobx";
 import { ParcelData, RawParcelData, Stop } from '../models';
 import { parseParcelData } from '../utilities';
@@ -58,6 +58,33 @@ export class RootStore {
   }
 
   pitch = 0;
+  displayBBox = false;
+
+  bboxLayerId = 'parcel-data-bbox';
+
+  get bboxLayer() {
+    const bbox = this.bbox;
+    if (!bbox) {
+      return null;
+    }
+    return new PolygonLayer({
+      id: this.bboxLayerId,
+      data: [this.bbox],
+      pickable: false,
+      stroked: true,
+      filled: true,
+      lineWidthMinPixels: 1,
+      getPolygon: (d: any) => {
+        if (d && d.geometry && d.geometry.coordinates) {
+          return [...d.geometry.coordinates]
+        }
+        return []
+      },
+      getLineColor: (d) => [255, 0, 0],
+      getFillColor: (d) => [255, 0, 0, 50],
+      getLineWidth: 5
+    })
+  }
 
   get viewStateProps(): ViewStateProps | null {
     const selectedStop = this.selectedStop;
@@ -91,7 +118,15 @@ export class RootStore {
       return null;
     }
     const selected = courier.stops.filter(s => s.selected);
-    return selected.length > 0 ? selected[0] : null;
+    const stop = selected.length > 0 ? selected[0] : null;
+    // debugger;
+    // if (stop?.feature) {
+    //   let bbox = toJS(stop).feature?.bbox;
+    //   if (bbox && bbox.length >= 4) {
+    //     console.log(new WebMercatorViewport({}).fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]]))
+    //   }
+    // }
+    return stop;
   }
 
   set selectedStop(stop: Stop | null) {

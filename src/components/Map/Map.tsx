@@ -9,6 +9,7 @@ import "./Map.scss";
 import { Arc } from "../../stores/root.store";
 import { ViewStateProps } from "@deck.gl/core/lib/deck";
 import { FlyToInterpolator } from "deck.gl";
+import { WebMercatorViewport } from "deck.gl";
 
 const INITIAL_VIEW_STATE = {
   longitude: 0,
@@ -20,6 +21,9 @@ const INITIAL_VIEW_STATE = {
 
 export const Map = observer(function Map() {
   const { store } = useStore();
+  const [viewPort] = useState(
+    new WebMercatorViewport({ ...INITIAL_VIEW_STATE })
+  );
   const [viewState, setViewState] = useState<ViewStateProps>(
     INITIAL_VIEW_STATE
   );
@@ -42,7 +46,24 @@ export const Map = observer(function Map() {
     }
   }, [store.viewStateProps]);
 
-  const layers = store.arcsLayer ? [store.arcsLayer] : [];
+  const [layers, setLayers] = useState<any>([]);
+
+  useEffect(() => {
+    setLayers([]);
+    const layers = [];
+    if (store.arcsLayer) {
+      layers.push(store.arcsLayer);
+    }
+    layers.push(store.bboxLayer);
+    setLayers(layers);
+  }, [store.arcsLayer, store.bboxLayer, store.displayBBox]);
+
+  const layerFilter = ({ layer }: any) => {
+    if (layer.id.indexOf(store.bboxLayerId) !== -1) {
+      return store.displayBBox;
+    }
+    return true;
+  };
 
   const handleViewStateChange = (event: any) => setViewState(event.viewState);
 
@@ -55,6 +76,7 @@ export const Map = observer(function Map() {
           // initialViewState={INITIAL_VIEW_STATE}
           onViewStateChange={handleViewStateChange}
           layers={layers}
+          layerFilter={layerFilter}
           controller={true}
           getTooltip={({ object }) => {
             if (object) {

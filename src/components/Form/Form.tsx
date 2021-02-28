@@ -5,7 +5,7 @@ import { useStore } from "../../stores/store.context";
 import Slider from "@material-ui/core/Slider";
 import { useQueryParams } from "../../hooks";
 import "./Form.scss";
-import { runInAction } from "mobx";
+import { action, runInAction } from "mobx";
 
 export const Form = observer(function Form() {
   // Hooks
@@ -21,6 +21,11 @@ export const Form = observer(function Form() {
   const [isDanger, setIsDanger] = useState("");
   const [clearOrSubmit, setClearOrSubmit] = useState<"Clear" | "Submit">(
     "Submit"
+  );
+
+  const handleCheck = action(
+    "toggleBBoxDisplay",
+    (e: any) => (store.displayBBox = e.target.checked)
   );
 
   // Effects
@@ -101,20 +106,39 @@ export const Form = observer(function Form() {
         {store.errorMessage && (
           <p className="has-text-danger">{store.errorMessage}</p>
         )}
-        <div className="field">
-          <Slider
-            defaultValue={store.pitch}
-            step={5}
-            marks
-            min={0}
-            max={60}
-            value={store.pitch}
-            onChange={(e, value) =>
-              runInAction(() => (store.pitch = value as number))
-            }
-          />
-        </div>
       </fieldset>
+      {store.parcelData.length > 0 && (
+        <>
+          <div className="field">
+            <label className="label">Pitch</label>
+            <Slider
+              className="control"
+              defaultValue={store.pitch}
+              step={5}
+              marks
+              min={0}
+              max={60}
+              value={store.pitch}
+              onChange={(e, value) =>
+                runInAction(() => (store.pitch = value as number))
+              }
+            />
+          </div>
+          <div className="field">
+            <div className="control">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  value={store.displayBBox ? 1 : 0}
+                  onChange={handleCheck}
+                />
+                Display bbox?
+              </label>
+            </div>
+          </div>
+        </>
+      )}
     </form>
   );
 });
