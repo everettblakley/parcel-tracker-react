@@ -1,0 +1,21 @@
+{
+  "Track": {
+    "id": "string",
+    "carrier": "Carrier"
+  },
+  "Carrier": {
+    "name": "string",
+    "trackingEvents": "TrackingEvent[]"
+  },
+  "TrackingEvent": {
+    "timestamp": "date",
+    "status": "string",
+    "location": "Location"
+  },
+  "Location": {
+    "city": "string",
+    "state": "string",
+    "postalCode": "string",
+    "country": "string"
+  }
+}
