@@ -5,17 +5,20 @@
   },
   "Carrier": {
     "name": "string",
-    "trackingEvents": "TrackingEvent[]"
+    "trackingEvents": "TrackingEvent[]",
+    "track": "Track"
   },
   "TrackingEvent": {
     "timestamp": "date",
     "status": "string",
-    "location": "Location"
+    "location": "Location",
+    "carrier": "Carrier"
   },
   "Location": {
     "city": "string",
     "state": "string",
     "postalCode": "string",
-    "country": "string"
+    "country": "string",
+    "trackingEvent": "TrackingEvent"
   }
 }
