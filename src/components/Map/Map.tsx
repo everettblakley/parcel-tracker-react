@@ -1,5 +1,5 @@
 import { ViewStateProps } from "@deck.gl/core/lib/deck";
-import DeckGL, { FlyToInterpolator } from "deck.gl";
+import DeckGL, { FlyToInterpolator, WebMercatorViewport } from "deck.gl";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { StaticMap } from "react-map-gl";
@@ -19,6 +19,9 @@ const INITIAL_VIEW_STATE = {
 
 export const Map = observer(function Map() {
   const { store } = useStore();
+  const [viewPort] = useState(
+    new WebMercatorViewport({ ...INITIAL_VIEW_STATE })
+  );
   const [viewState, setViewState] = useState<ViewStateProps>(
     INITIAL_VIEW_STATE
   );
@@ -41,7 +44,7 @@ export const Map = observer(function Map() {
     }
   }, [store.viewStateProps]);
 
-  const layers = store.arcsLayer ? [store.arcsLayer] : [];
+  const [layers] = useState<any>([]);
 
   const handleViewStateChange = (event: any) => setViewState(event.viewState);
 

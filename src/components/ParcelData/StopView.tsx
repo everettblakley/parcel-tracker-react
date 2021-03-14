@@ -12,16 +12,18 @@ import { Stop, TrackingEvent } from "../../models";
 import { useStore } from "../../stores/store.context";
 import "./StopView.scss";
 
+export interface EventViewProps {
+  event: TrackingEvent;
+  displayConnector: boolean;
+  selected?: boolean;
+  onClick?: (args: any) => void;
+}
+
 export const EventView = observer(function EventView({
   event,
   displayConnector,
   selected,
-}: {
-  event: TrackingEvent;
-  displayConnector: boolean;
-  selected?: boolean;
-  onClick: (args: any) => void;
-}) {
+}: EventViewProps) {
   return (
     <TimelineItem className="StopView">
       <TimelineOppositeContent>
