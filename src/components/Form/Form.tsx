@@ -1,11 +1,9 @@
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { useStore } from "../../stores/store.context";
-import Slider from "@material-ui/core/Slider";
 import { useQueryParams } from "../../hooks";
+import { useStore } from "../../stores/store.context";
 import "./Form.scss";
-import { runInAction } from "mobx";
 
 export const Form = observer(function Form() {
   // Hooks
@@ -79,7 +77,7 @@ export const Form = observer(function Form() {
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>
-        <p>4337360760364248</p>
+        {process.env.NODE_ENV === 'development' && <p>4337360760364248</p> }
         <div className="field has-addons">
           <div className="control is-expanded">
             <input
@@ -101,19 +99,6 @@ export const Form = observer(function Form() {
         {store.errorMessage && (
           <p className="has-text-danger">{store.errorMessage}</p>
         )}
-        <div className="field">
-          <Slider
-            defaultValue={store.pitch}
-            step={5}
-            marks
-            min={0}
-            max={60}
-            value={store.pitch}
-            onChange={(e, value) =>
-              runInAction(() => (store.pitch = value as number))
-            }
-          />
-        </div>
       </fieldset>
     </form>
   );

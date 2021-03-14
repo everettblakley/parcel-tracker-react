@@ -1,22 +1,54 @@
 import { MapiResponse } from '@mapbox/mapbox-sdk/lib/classes/mapi-response';
 import { Feature, Point, point } from '@turf/helpers';
+import { RGBAColor } from 'deck.gl';
 import { toJS } from 'mobx';
-import moment from "moment";
-import { Location, ParcelData, RawParcelData, RawTrackingEvent, Stop, TrackingEvent } from '../models';
+import moment from 'moment';
+import {
+  Location,
+  ParcelData,
+  RawParcelData,
+  RawTrackingEvent,
+  Stop,
+  TrackingEvent,
+} from '../models';
 import { geocoding, mapbox, mapboxSdk } from './mapbox';
 import { replaceUnderScores, toSentenceCase } from './text.utilities';
 
+// Color scheme from colorbrewer2.org for the map
+export const COLORS: RGBAColor[] = [
+  [166, 206, 227, 255],
+  [31, 120, 180, 255],
+  [178, 223, 138, 255],
+  [51, 160, 44, 255],
+  [251, 154, 153, 255],
+  [227, 26, 28, 255],
+  [253, 191, 111, 255],
+  [255, 127, 0, 255],
+  [202, 178, 214, 255],
+  [106, 61, 154, 255],
+];
+
+export const toHex = (color: RGBAColor): string => {
+  let output = '#';
+  for (let i = 0; i < 3; i++) {
+    output += color[i]?.toString(16);
+  }
+  return output;
+}
+
 export const courierName = (name?: string) => {
   if (!name) {
-    return "";
+    return '';
   }
   name = replaceUnderScores(name);
   name = toSentenceCase(name);
   return name;
 };
 
-export const parseParcelData = async (rawData: RawParcelData): Promise<ParcelData[]> => {
-  // Get a raw JS array of the courier names 
+export const parseParcelData = async (
+  rawData: RawParcelData
+): Promise<ParcelData[]> => {
+  // Get a raw JS array of the courier names
   const couriers = Object.keys(toJS(rawData));
   let parcelData: ParcelData[] = [];
   for (const courier of couriers) {
@@ -27,19 +59,23 @@ export const parseParcelData = async (rawData: RawParcelData): Promise<ParcelDat
     parcelData.push({ courier: name, stops, active: couriers.length === 1 });
   }
   return parcelData;
-}
+};
 
-export const parseTrackingEvents = (rawEvents: RawTrackingEvent[]): TrackingEvent[] => {
+export const parseTrackingEvents = (
+  rawEvents: RawTrackingEvent[]
+): TrackingEvent[] => {
   const events = rawEvents.map((t: any) => {
     const event: TrackingEvent = {
-      timestamp: moment.utc(t.timestamp, "YYYY-MM-DDTHH:mm:ssZZ"),
+      timestamp: moment.utc(t.timestamp, 'YYYY-MM-DDTHH:mm:ssZZ'),
       status: t.status,
-      location: Location.isLocation(t.location) ? new Location(t.location) : t.location
+      location: Location.isLocation(t.location)
+        ? new Location(t.location)
+        : t.location,
     };
     return event;
   });
   return events;
-}
+};
 
 export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
   const stops: Stop[] = [];
@@ -48,14 +84,17 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
 
   // Sort the events by the timestamp
   data.sort((a, b) =>
-    a.timestamp < b.timestamp
-      ? -1 : a.timestamp > b.timestamp
-        ? 1 : 0);
+    a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0
+  );
 
   let event;
   // Remove first event from array
   while ((event = data.shift())) {
-    let stop: Stop = { startDate: event.timestamp, events: [event], selected: false };
+    let stop: Stop = {
+      startDate: event.timestamp,
+      events: [event],
+      selected: false,
+    };
     if (event.location) {
       stop.location = event.location;
       const locations: Set<string> = new Set([event.location.toString()]);
@@ -64,7 +103,7 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
       let nextEvent = data[spliceIndex];
 
       do {
-        const nextLocation = nextEvent?.location?.toString() || "";
+        const nextLocation = nextEvent?.location?.toString() || '';
         locations.add(nextLocation);
         spliceIndex += 1;
         nextEvent = data[spliceIndex];
@@ -85,10 +124,14 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
     stops.push(stop);
   }
 
-  return Promise.resolve(stops);
-}
+  stops.forEach((stop, index) => (stop.color = COLORS[index % stops.length]));
 
-export const getGeolocation = async (location: string): Promise<Feature<Point> | undefined> => {
+  return Promise.resolve(stops);
+};
+
+export const getGeolocation = async (
+  location: string
+): Promise<Feature<Point> | undefined> => {
   const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
   const geocodingClient = geocoding(mapboxClient);
   if (!geocodingClient || !location) {
@@ -99,7 +142,7 @@ export const getGeolocation = async (location: string): Promise<Feature<Point> |
       query: location.toString(),
       autocomplete: false,
       limit: 1,
-      mode: "mapbox.places"
+      mode: 'mapbox.places',
     })
     .send()
     .then((response: MapiResponse) => {
@@ -107,10 +150,11 @@ export const getGeolocation = async (location: string): Promise<Feature<Point> |
         response &&
         response.body &&
         response.body.features &&
-        response.body.features.length) {
+        response.body.features.length
+      ) {
         const feature = response.body.features[0];
         if (!feature.coordinates) {
-          if ("geometry" in (feature as any)) {
+          if ('geometry' in (feature as any)) {
             feature.coordinates = feature.geometry.coordinates;
           }
         }
@@ -121,4 +165,4 @@ export const getGeolocation = async (location: string): Promise<Feature<Point> |
       console.error(error);
       return undefined;
     });
-}
+};

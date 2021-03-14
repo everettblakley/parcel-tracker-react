@@ -6,6 +6,7 @@ export class UIStore {
   drawerOpen = false;
 
   get isMobile(): boolean {
+    // Janky? A little
     return this.width ? this.width < 768 : false;
   }
 

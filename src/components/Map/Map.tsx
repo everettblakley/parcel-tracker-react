@@ -1,14 +1,13 @@
-import { StaticMap } from "react-map-gl";
-import DeckGL from "deck.gl";
+import { ViewStateProps } from "@deck.gl/core/lib/deck";
+import DeckGL, { FlyToInterpolator } from "deck.gl";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
+import { StaticMap } from "react-map-gl";
+import { Arc } from "../../stores/root.store";
 import { useStore } from "../../stores/store.context";
 import { Drawer } from "../Drawer";
 import { Form } from "../Form/Form";
 import "./Map.scss";
-import { Arc } from "../../stores/root.store";
-import { ViewStateProps } from "@deck.gl/core/lib/deck";
-import { FlyToInterpolator } from "deck.gl";
 
 const INITIAL_VIEW_STATE = {
   longitude: 0,
@@ -52,7 +51,6 @@ export const Map = observer(function Map() {
         <Form />
         <DeckGL
           viewState={viewState || INITIAL_VIEW_STATE}
-          // initialViewState={INITIAL_VIEW_STATE}
           onViewStateChange={handleViewStateChange}
           layers={layers}
           controller={true}
