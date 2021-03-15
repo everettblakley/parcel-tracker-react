@@ -8,7 +8,6 @@ import moment from "moment";
 export default {
   title: "EventView",
   component: EventView,
-  argTypes: { onClick: { action: "clicked" } },
 } as Meta;
 
 const EventViewTemplate: Story<EventViewProps> = (args) => (

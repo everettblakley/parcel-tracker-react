@@ -258,7 +258,5 @@ export class RootStore {
       const pitch = this.parcelData?.length ? 60 : 0;
       runInAction(() => (this.pitch = pitch));
     });
-
-    autorun(() => console.log(this.pitch));
   }
 }

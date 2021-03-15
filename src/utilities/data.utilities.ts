@@ -1,6 +1,5 @@
 import { MapiResponse } from '@mapbox/mapbox-sdk/lib/classes/mapi-response';
 import { Feature, Point, point } from '@turf/helpers';
-import { RGBAColor } from 'deck.gl';
 import { toJS } from 'mobx';
 import moment from 'moment';
 import {
@@ -9,32 +8,11 @@ import {
   RawParcelData,
   RawTrackingEvent,
   Stop,
-  TrackingEvent,
+  TrackingEvent
 } from '../models';
+import { getColor } from './colour.utilities';
 import { geocoding, mapbox, mapboxSdk } from './mapbox';
 import { replaceUnderScores, toSentenceCase } from './text.utilities';
-
-// Color scheme from colorbrewer2.org for the map
-export const COLORS: RGBAColor[] = [
-  [166, 206, 227, 255],
-  [31, 120, 180, 255],
-  [178, 223, 138, 255],
-  [51, 160, 44, 255],
-  [251, 154, 153, 255],
-  [227, 26, 28, 255],
-  [253, 191, 111, 255],
-  [255, 127, 0, 255],
-  [202, 178, 214, 255],
-  [106, 61, 154, 255],
-];
-
-export const toHex = (color: RGBAColor): string => {
-  let output = '#';
-  for (let i = 0; i < 3; i++) {
-    output += color[i]?.toString(16);
-  }
-  return output;
-}
 
 export const courierName = (name?: string) => {
   if (!name) {
@@ -123,8 +101,10 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
     }
     stops.push(stop);
   }
-
-  stops.forEach((stop, index) => (stop.color = COLORS[index % stops.length]));
+  const { length } = stops;
+  stops.forEach((stop, index) => {
+    stop.color = getColor(length, index);
+  });
 
   return Promise.resolve(stops);
 };

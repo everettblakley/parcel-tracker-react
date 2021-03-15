@@ -1,20 +1,33 @@
 .StopView {
+  display: flex;
+  align-items: center;
   background: white;
+  padding: 0.5em;
   cursor: pointer;
   transition: all 200ms ease-in-out;
   &:hover {
     background: whitesmoke;
   }
 
-  &.selected > * {
-    filter: hue-rotate(45deg);
-  }
+  // &.selected > * {
+  //   filter: hue-rotate(45deg);
+  // }
 }
 
 .StopIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 1em;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  text-align: center;
   transition: all 200ms ease-in-out;
 
-  &.selected {
-    filter: hue-rotate(45deg);
-  }
+  // &.selected {
+  //   filter: hue-rotate(45deg);
+  // }
 }

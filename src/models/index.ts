@@ -1,5 +1,5 @@
 import { Feature, Point } from '@turf/helpers';
-import { RGBAColor } from 'deck.gl';
+import { Color } from "../utilities/colour.utilities";
 import { Moment } from "moment";
 import { toSentenceCase } from "../utilities";
 
@@ -55,5 +55,5 @@ export interface Stop {
   location?: Location | string;
   selected: boolean;
   feature?: Feature<Point>
-  color?: RGBAColor;
+  color?: Color;
 }

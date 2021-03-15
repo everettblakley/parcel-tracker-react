@@ -18,5 +18,6 @@
     "importHelpers": true,
     "baseUrl": "./"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["*.stories.tsx", "*.test*"]
 }
