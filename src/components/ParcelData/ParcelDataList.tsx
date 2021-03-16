@@ -6,7 +6,7 @@ import { CourierView } from "./Courier";
 import "./ParcelDataList.scss";
 
 const CourierList = observer(function CourierList() {
-  const { store } = useStore();
+  const store = useStore();
   return (
     <div>
       {store.parcelData.map((d, i) => {
@@ -24,7 +24,7 @@ const CourierList = observer(function CourierList() {
 });
 
 export const ParcelDataList = observer<React.FC>(function ParcelDataList() {
-  const { store } = useStore();
+  const store = useStore();
   return (
     <div className="has-text-left px-3 mt-2">
       {store.parcelData.length > 0 ? <CourierList /> : <About />}

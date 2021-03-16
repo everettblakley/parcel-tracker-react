@@ -15,7 +15,7 @@ export const CourierView = observer(function CourierView({
   data,
   collapsable,
 }: CourierViewProps) {
-  const { store } = useStore();
+  const store = useStore();
 
   const handleClickCollapse = () => {
     if (!!collapsable) {

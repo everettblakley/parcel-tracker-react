@@ -3,9 +3,9 @@ import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import centroid from '@turf/centroid';
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
-import { RGBAColor } from 'deck.gl';
 import { ArcLayer, Position2D } from 'deck.gl';
 import { action, autorun, makeAutoObservable, runInAction } from 'mobx';
+import { Color } from 'src/utilities/colour.utilities';
 import { ParcelData, RawParcelData, Stop } from '../models';
 import { parseParcelData } from '../utilities';
 import { UIStore } from './ui.store';
@@ -15,7 +15,7 @@ type Endpoint = { name: string; coordindates: Position2D };
 export type Arc = {
   from: Endpoint;
   to: Endpoint;
-  color?: RGBAColor;
+  color?: Color;
 };
 
 export class RootStore {
@@ -218,7 +218,7 @@ export class RootStore {
               : current.events[0].status,
             coordindates: next.feature?.geometry.coordinates as Position2D,
           },
-          color: current.color
+          color: current.color,
         };
         return [...output, currentArc];
       }
@@ -232,20 +232,22 @@ export class RootStore {
    */
   get arcsLayer() {
     if (!this.activeCourier) {
-      return null;
+      return [];
     }
-    return new ArcLayer({
-      id: 'stops',
-      data: this.arcs,
-      // Have to add a 3rd coordinate, as MobX was complaining about checking
-      // out of bounds
-      getSourcePosition: (d) => [...(d as Arc).from.coordindates, 0],
-      getTargetPosition: (d) => [...(d as Arc).to.coordindates, 0],
-      getSourceColor: (d) => (d as Arc)?.color ?? [0, 0, 0],
-      getTargetColor: (d) => (d as Arc)?.color ?? [0, 0, 0],
-      getHeight: 0.25,
-      getWidth: 3,
-    });
+    return [
+      new ArcLayer({
+        id: 'stops',
+        data: this.arcs,
+        // Have to add a 3rd coordinate, as MobX was complaining about checking
+        // out of bounds
+        getSourcePosition: (d) => [...(d as Arc).from.coordindates, 0],
+        getTargetPosition: (d) => [...(d as Arc).to.coordindates, 0],
+        getSourceColor: (d) => (d as Arc)?.color?.rgba ?? [0, 0, 0, 255],
+        getTargetColor: (d) => (d as Arc)?.color?.rgba ?? [0, 0, 0, 255],
+        getHeight: 0.25,
+        getWidth: 3,
+      }),
+    ];
   }
 
   constructor() {

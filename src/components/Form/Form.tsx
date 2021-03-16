@@ -10,7 +10,7 @@ export const Form = observer(function Form() {
   const history = useHistory();
   const queryParams = useQueryParams();
   const location = useLocation();
-  const { store } = useStore();
+  const store = useStore();
   const trackingNumberParam = queryParams.get("trackingNumber");
   // State
   const [trackingNumber, setTrackingNumber] = useState(

@@ -16,15 +16,17 @@ export default {
 export const NoData = StoreProviderTemplate.bind({});
 NoData.args = { children: <ParcelDataList /> };
 
-const OneCourierComponent = observer(function({ count }: { count: number}) {
-  const { store } = useStore();
+const OneCourierComponent = observer(function ({ count }: { count?: number }) {
+  const store = useStore();
   useEffect(() => {
     (async () => {
-      const courierData = data["one_courier"]
-      courierData['SOME_COURIER'] = courierData['SOME_COURIER'].slice(0, count);
+      const courierData = data["one_courier"];
+      courierData["SOME_COURIER"] = count
+        ? courierData["SOME_COURIER"].slice(0, count)
+        : courierData["SOME_COURIER"];
       const parsedData = await parseParcelData(courierData);
       console.log(parsedData[0].stops.length);
-      runInAction(() => store.parcelData = parsedData);
+      runInAction(() => (store.parcelData = parsedData));
     })();
   });
 
@@ -36,17 +38,7 @@ TwoStops.args = {
   children: <OneCourierComponent count={2} />,
 };
 
-export const ThreeStops = StoreProviderTemplate.bind({});
-ThreeStops.args = {
-  children: <OneCourierComponent count={4} />,
-};
-
-export const SevenStops = StoreProviderTemplate.bind({});
-SevenStops.args = {
-  children: <OneCourierComponent count={7} />,
-};
-
-export const TwelveStops = StoreProviderTemplate.bind({});
-TwelveStops.args = {
-  children: <OneCourierComponent count={12} />,
+export const AllStops = StoreProviderTemplate.bind({});
+AllStops.args = {
+  children: <OneCourierComponent />,
 };

@@ -3,7 +3,7 @@ import React from "react";
 import { useStore } from "../stores/store.context";
 
 export const About = observer(function About() {
-  const { store } = useStore();
+  const store = useStore();
 
   return (
     <section className={`content ${store.uiStore.isMobile ? "pb-2" : "p-2"}`}>

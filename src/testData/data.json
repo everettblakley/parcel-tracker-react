@@ -221,7 +221,7 @@
       {
         "timestamp": "2021-01-26T21:56:11+0000",
         "status": "Electronic information submitted by shipper",
-        "location": "unknown"
+        "location": { "city": "", "state": "", "postalCode": "" }
       },
       {
         "timestamp": "2021-01-30T21:56:11+0000",
@@ -279,9 +279,9 @@
         "location": "Lethbridge, AB"
       },
       {
-        "timestamp": "2021-02-28T21:56:11+0000",
+        "timestamp": "2021-02-27T21:56:11+0000",
         "status": "Item out for delivery",
-        "location": "TABER, AB"
+        "location": "Taber, AB"
       },
       {
         "timestamp": "2021-02-28T21:56:11+0000",

@@ -91,7 +91,7 @@ export const toRGBA = (color: string = '#000000'): RGBAColor => {
   const red = `${colorString[0]}${colorString[1]}`;
   const green = `${colorString[2]}${colorString[3]}`;
   const blue = `${colorString[4]}${colorString[5]}`;
-  return [parseInt(red, 16), parseInt(green, 16), parseInt(blue, 16)];
+  return [parseInt(red, 16), parseInt(green, 16), parseInt(blue, 16), 255];
 };
 
 export interface Color {
@@ -105,7 +105,6 @@ export const getColor = (length: number, index: number): Color => {
   if (_length >= 3) {
     const scheme = _length as keyof typeof colorSchemes;
     const hex = colorSchemes[scheme][index % _length];
-    console.log(hex);
     color = { hex, rgba: toRGBA(hex) };
   } else {
     const hex = colorSchemes[3][index === 0 ? 0 : 2];
@@ -119,9 +118,8 @@ export const percentShift = (color: Color, amount: number): Color => {
     color.rgba[0] * amount,
     color.rgba[1] * amount,
     color.rgba[2] * amount,
-    color.rgba[3] ? color.rgba[3] * amount : undefined,
-  ];    
-  console.log(color.rgba, shiftedRGBA)
+    255
+  ];
   const shiftedHex = toHex(shiftedRGBA);
   return { hex: shiftedHex, rgba: shiftedRGBA };
 };

@@ -6,11 +6,11 @@ type Context = { store: RootStore };
 const StoreContext = createContext<Context | undefined>(undefined);
 
 export const useStore = () => {
-  const store = useContext(StoreContext);
-  if (!store) {
+  const context = useContext(StoreContext);
+  if (!context) {
     throw new Error("Must use `useStore` within a StoreProvider");
   }
-  return store;
+  return context.store;
 };
 
 export const StoreProvider: React.FC<Context> = ({ store, children }) => {

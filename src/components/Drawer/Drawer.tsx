@@ -8,7 +8,7 @@ import { ParcelDataList } from "../ParcelData/ParcelDataList";
 import "./Drawer.scss";
 
 export const Drawer = observer(function Drawer() {
-  const { store } = useStore();
+  const store = useStore();
   const { uiStore } = store;
 
   const handleDrawerButton = action("toggleDrawer", () => {
