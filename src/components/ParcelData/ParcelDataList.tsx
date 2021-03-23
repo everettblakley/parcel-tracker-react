@@ -23,11 +23,31 @@ const CourierList = observer(function CourierList() {
   );
 });
 
+const Examples = () => {
+  return (
+    <ul>
+      <li>
+        <b>{"YYC > YYZ -> YYC:"}</b> 4337360760364248
+      </li>
+      <li>
+        <b>Two stops:</b> 4010765063638021
+      </li>
+    </ul>
+  );
+};
+
 export const ParcelDataList = observer<React.FC>(function ParcelDataList() {
   const store = useStore();
   return (
     <div className="has-text-left px-3 mt-2">
-      {store.parcelData.length > 0 ? <CourierList /> : <About />}
+      {store.parcelData.length > 0 ? (
+        <CourierList />
+      ) : (
+        <>
+          <About />
+          {process.env.NODE_ENV && <Examples />}
+        </>
+      )}
     </div>
   );
 });
