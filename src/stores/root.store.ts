@@ -1,10 +1,11 @@
+import { Viewport, WebMercatorViewport } from '@deck.gl/core';
 import { ViewStateProps } from '@deck.gl/core/lib/deck';
 import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import centroid from '@turf/centroid';
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
 import { ArcLayer, Position2D } from 'deck.gl';
-import { action, autorun, makeAutoObservable, runInAction } from 'mobx';
+import { action, autorun, makeAutoObservable, runInAction, when } from 'mobx';
 import { Color } from 'src/utilities/colour.utilities';
 import { ParcelData, RawParcelData, Stop } from '../models';
 import { parseParcelData } from '../utilities';
@@ -96,17 +97,17 @@ export class RootStore {
       }
     }
     // Else, we compute the bounding box of all stops and zoom to that extent
-    const bbox = this.bbox;
-    if (bbox) {
-      const bboxCentroid = centroid(bbox);
-      return {
-        longitude: bboxCentroid.geometry.coordinates[0],
-        latitude: bboxCentroid.geometry.coordinates[1],
-        pitch: this.pitch,
-        zoom: 4,
-      };
-    }
-    return null;
+    // const bbox = this.minimumBoundingGeometry;
+    // if (bbox) {
+    //   const bboxCentroid = centroid(bbox);
+    //   return {
+    //     longitude: bboxCentroid.geometry.coordinates[0],
+    //     latitude: bboxCentroid.geometry.coordinates[1],
+    //     pitch: this.pitch,
+    //     zoom: 4,
+    //   };
+    // }
+    return this.viewStateForStops;
   }
 
   /**
@@ -159,11 +160,34 @@ export class RootStore {
   /**
    * @returns a polygon representing the minimum bounding geometry of all stops
    */
-  get bbox(): Feature<Polygon> | null {
+  get minimumBoundingGeometry(): Feature<Polygon> | null {
     if (!this.activeCourier) {
       return null;
     }
     return bboxPolygon(bbox(featureCollection(this.features)));
+  }
+
+  /**
+   * @returns the top-left and bottom-right of the bbox around the stops
+   */
+  get bounds(): [[number, number], [number, number]] | null {
+    const minBounds = this.minimumBoundingGeometry;
+    if (!minBounds) return null;
+    const bbox = minBounds!.bbox;
+    if (!bbox) return null;
+    return [[bbox[0], bbox[1]], [bbox[2], bbox[3]]];
+  }
+
+  /**
+   * @returns the view state for the current stops, by using the Viewport fitBounds method
+   */
+  get viewStateForStops(): ViewStateProps | null{
+    const bounds = this.bounds;
+    if (!bounds) return null;
+    let viewport: any = new WebMercatorViewport();
+    viewport = viewport.fitBounds(bounds);
+    const { latitude, longitude, altitude, bearing, zoom } = viewport;
+    return { latitude, longitude, altitude, bearing, zoom };
   }
 
   /**
@@ -260,5 +284,7 @@ export class RootStore {
       const pitch = this.parcelData?.length ? 60 : 0;
       runInAction(() => (this.pitch = pitch));
     });
+
+    when(() => this.bounds !== null, () => console.log(this.viewStateForStops));
   }
 }

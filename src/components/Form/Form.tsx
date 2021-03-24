@@ -77,7 +77,6 @@ export const Form = observer(function Form() {
           Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
           Worldwide, USPS, or UPS, and see the order history plotted on the map!
         </p>
-        {process.env.NODE_ENV === 'development' && <p>4337360760364248</p> }
         <div className="field has-addons">
           <div className="control is-expanded">
             <input
