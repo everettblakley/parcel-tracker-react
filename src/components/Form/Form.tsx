@@ -74,8 +74,9 @@ export const Form = observer(function Form() {
           Parcel Tracker
         </h1>
         <p className={`${store.parcelData.length && "is-hidden"}`}>
-          Enter in a tracking number from Canada Post, DHL, FedEx, SkyNet
-          Worldwide, USPS, or UPS, and see the order history plotted on the map!
+          Enter in a tracking number from Canada Post, Purolator, DHL, FedEx,
+          SkyNet Worldwide, USPS, or UPS, and see the order history plotted on
+          the map!
         </p>
         <div className="field has-addons">
           <div className="control is-expanded">
