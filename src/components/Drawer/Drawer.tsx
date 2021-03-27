@@ -30,7 +30,7 @@ export const Drawer = observer(function Drawer() {
       </button>
 
       <div
-        className="Drawer-content has-background-white"
+        className="Drawer-content"
         style={{ maxHeight: uiStore.drawerOpen ? uiStore.drawerHeight : 0 }}
       >
         <ListContent />
