@@ -4,7 +4,7 @@ import React from "react";
 import { FaCaretUp } from "react-icons/fa";
 import { useStore } from "../../stores/store.context";
 import { Footer } from "../Footer";
-import { ParcelDataList } from "../ParcelData/ParcelDataList";
+import { ListContent } from "../List";
 import "./Drawer.scss";
 
 export const Drawer = observer(function Drawer() {
@@ -33,7 +33,7 @@ export const Drawer = observer(function Drawer() {
         className="Drawer-content has-background-white"
         style={{ maxHeight: uiStore.drawerOpen ? uiStore.drawerHeight : 0 }}
       >
-        <ParcelDataList />
+        <ListContent />
         <Footer />
       </div>
     </section>

@@ -1,4 +1,4 @@
-.StopView_list-item {
+.ListItem {
   display: flex;
   align-items: center;
   background: white;
@@ -10,11 +10,11 @@
     background: whitesmoke;
   }
 
-  .StopView_content {
+  .ListItem_content {
     flex: 1;
   }
 
-  .StopView_icon {
+  .ListItem_icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,8 +22,8 @@
     height: 30px;
     margin-right: 1em;
   }
-  
-  .StopView_icon--fill {
+
+  .ListItem_icon--fill {
     display: flex;
     justify-content: center;
     align-items: center;

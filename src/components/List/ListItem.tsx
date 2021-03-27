@@ -5,7 +5,7 @@ import { RiMapPin2Fill } from "react-icons/ri";
 import { Color, percentShift } from "src/utilities/colour.utilities";
 import { Stop, TrackingEvent } from "../../models";
 import { useStore } from "../../stores/store.context";
-import "./StopView.scss";
+import "./ListItem.scss";
 
 const useSelectedProp = (selected: boolean): string => {
   const [selectedClass, setSelectedClass] = useState(() =>
@@ -30,7 +30,7 @@ const useIconColor = (color: Color | undefined, selected: boolean): string => {
   return iconColor;
 };
 
-interface StopListItemProps {
+interface ListItemProps {
   selected?: boolean;
   color?: Color;
   iconSize: "30px" | "15px";
@@ -40,22 +40,22 @@ interface StopListItemProps {
   [key: string]: any;
 }
 
-const StopListItem = observer(function ({
+const GenericListItem = observer(function GenericListItem({
   selected,
   color,
   onClick,
   iconSize,
   iconContent,
   content,
-}: StopListItemProps) {
+}: ListItemProps) {
   const selectedClass = useSelectedProp(selected || false);
   const iconColor = useIconColor(color, selected || false);
 
   return (
-    <div className={`StopView_list-item ${selectedClass}`} onClick={onClick}>
-      <div className={`StopView_icon ${selectedClass}`}>
+    <div className={`ListItem ${selectedClass}`} onClick={onClick}>
+      <div className={`ListItem_icon ${selectedClass}`}>
         <div
-          className="StopView_icon--fill"
+          className="ListItem_icon--fill"
           style={{
             backgroundColor: iconColor,
             width: iconSize,
@@ -65,13 +65,13 @@ const StopListItem = observer(function ({
           {iconContent}
         </div>
       </div>
-      <div className="StopView_content">{content}</div>
+      <div className="ListItem_content">{content}</div>
     </div>
   );
 });
 
 export interface EventViewProps
-  extends Omit<StopListItemProps, "content" | "iconContent"> {
+  extends Omit<ListItemProps, "content" | "iconContent"> {
   event: TrackingEvent;
 }
 
@@ -80,7 +80,7 @@ export const EventView = observer(function EventView({
   ...props
 }: EventViewProps) {
   return (
-    <StopListItem
+    <GenericListItem
       content={
         <>
           <h4 className="is-size-6">{event.status}</h4>
@@ -95,7 +95,7 @@ export const EventView = observer(function EventView({
   );
 });
 
-export const StopView = observer(function StopView({
+export const ListItem = observer(function StopView({
   stop,
   displayConnector,
 }: {
@@ -137,7 +137,7 @@ export const StopView = observer(function StopView({
 
   return (
     <div>
-      <StopListItem
+      <GenericListItem
         selected={stop.selected}
         iconSize="30px"
         onClick={handleSelect}
@@ -149,7 +149,7 @@ export const StopView = observer(function StopView({
           </>
         }
         iconContent={
-          <div className="StopIcon_icon--fill">
+          <div className="ListItem_icon--fill">
             {displayConnector ? <RiMapPin2Fill /> : <FaFlag />}
           </div>
         }

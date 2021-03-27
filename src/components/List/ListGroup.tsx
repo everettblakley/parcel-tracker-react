@@ -4,17 +4,17 @@ import React from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { ParcelData } from "../../models";
 import { useStore } from "../../stores/store.context";
-import { StopsTimeline } from "./Timeline";
+import { ListItems } from "./ListItems";
 
-export interface CourierViewProps {
+export interface ListGroupProps {
   data: ParcelData;
   collapsable: boolean;
 }
 
-export const CourierView = observer(function CourierView({
+export const ListGroup = observer(function ListGroup({
   data,
   collapsable,
-}: CourierViewProps) {
+}: ListGroupProps) {
   const store = useStore();
 
   const handleClickCollapse = () => {
@@ -25,10 +25,7 @@ export const CourierView = observer(function CourierView({
 
   return (
     <>
-      <div
-        onClick={handleClickCollapse}
-        className="has-background-light p-2"
-      >
+      <div onClick={handleClickCollapse} className="has-background-light p-2">
         <h5 className="mb-0">Delivered by {data.courier}</h5>
         {!!collapsable ? (
           <FaCaretDown
@@ -38,7 +35,7 @@ export const CourierView = observer(function CourierView({
         ) : null}
       </div>
       <div>
-        <StopsTimeline stops={data.stops} />
+        <ListItems stops={data.stops} />
       </div>
     </>
   );

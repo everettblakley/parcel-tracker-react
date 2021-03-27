@@ -187,7 +187,6 @@ export class RootStore {
     let viewport: any = new WebMercatorViewport({
       width,
       height,
-      pitch: this.pitch,
     });
     viewport = viewport.fitBounds(bounds, { padding: 32 });
     const { latitude, longitude, altitude, bearing, zoom } = viewport;
