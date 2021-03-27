@@ -6,7 +6,7 @@ import { StaticMap } from "react-map-gl";
 import { Arc } from "../../stores/root.store";
 import { useStore } from "../../stores/store.context";
 import { Drawer } from "../Drawer";
-import { Form } from "../Form/Form";
+import { Form } from "../Form";
 import "./Map.scss";
 
 const INITIAL_VIEW_STATE = {
@@ -30,21 +30,20 @@ export const Map = observer(function Map() {
   }, []);
 
   useEffect(() => {
-    let viewStateProps = store.viewStateProps;
+    const viewStateProps = store.viewStateProps;
     if (viewStateProps) {
-      viewStateProps = {
+      setViewState({
         ...viewStateProps,
         transitionInterpolator: new FlyToInterpolator(),
         transitionDuration: 500,
-      };
-      setViewState(viewStateProps);
+      });
     }
   }, [store.viewStateProps]);
 
   const handleViewStateChange = (event: any) => setViewState(event.viewState);
 
   return (
-    <main className="Map">
+    <main className="Map" id="Map">
       <section className="Map-content">
         <Form />
         <DeckGL

@@ -25,7 +25,6 @@ const OneCourierComponent = observer(function ({ count }: { count?: number }) {
         ? courierData["SOME_COURIER"].slice(0, count)
         : courierData["SOME_COURIER"];
       const parsedData = await parseParcelData(courierData);
-      console.log(parsedData[0].stops.length);
       runInAction(() => (store.parcelData = parsedData));
     })();
   });

@@ -1,11 +1,10 @@
-import { Viewport, WebMercatorViewport } from '@deck.gl/core';
+import { WebMercatorViewport } from '@deck.gl/core';
 import { ViewStateProps } from '@deck.gl/core/lib/deck';
 import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
-import centroid from '@turf/centroid';
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
 import { ArcLayer, Position2D } from 'deck.gl';
-import { action, autorun, makeAutoObservable, runInAction, when } from 'mobx';
+import { action, autorun, makeAutoObservable, runInAction } from 'mobx';
 import { Color } from 'src/utilities/colour.utilities';
 import { ParcelData, RawParcelData, Stop } from '../models';
 import { parseParcelData } from '../utilities';
@@ -96,17 +95,6 @@ export class RootStore {
         };
       }
     }
-    // Else, we compute the bounding box of all stops and zoom to that extent
-    // const bbox = this.minimumBoundingGeometry;
-    // if (bbox) {
-    //   const bboxCentroid = centroid(bbox);
-    //   return {
-    //     longitude: bboxCentroid.geometry.coordinates[0],
-    //     latitude: bboxCentroid.geometry.coordinates[1],
-    //     pitch: this.pitch,
-    //     zoom: 4,
-    //   };
-    // }
     return this.viewStateForStops;
   }
 
@@ -175,19 +163,42 @@ export class RootStore {
     if (!minBounds) return null;
     const bbox = minBounds!.bbox;
     if (!bbox) return null;
-    return [[bbox[0], bbox[1]], [bbox[2], bbox[3]]];
+    return [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ];
   }
 
   /**
    * @returns the view state for the current stops, by using the Viewport fitBounds method
    */
-  get viewStateForStops(): ViewStateProps | null{
+  get viewStateForStops(): ViewStateProps | null {
     const bounds = this.bounds;
     if (!bounds) return null;
-    let viewport: any = new WebMercatorViewport();
-    viewport = viewport.fitBounds(bounds);
+
+    // Get initial values for the map width
+    let { width, height } = this.uiStore;
+    const map = document.getElementById('Map');
+    if (map) {
+      width = map.clientWidth;
+      height = map.clientHeight;
+    }
+
+    let viewport: any = new WebMercatorViewport({
+      width,
+      height,
+      pitch: this.pitch,
+    });
+    viewport = viewport.fitBounds(bounds, { padding: 32 });
     const { latitude, longitude, altitude, bearing, zoom } = viewport;
-    return { latitude, longitude, altitude, bearing, zoom };
+    return {
+      latitude,
+      longitude,
+      altitude,
+      bearing,
+      zoom,
+      pitch: this.pitch,
+    };
   }
 
   /**
@@ -284,7 +295,5 @@ export class RootStore {
       const pitch = this.parcelData?.length ? 60 : 0;
       runInAction(() => (this.pitch = pitch));
     });
-
-    when(() => this.bounds !== null, () => console.log(this.viewStateForStops));
   }
 }
