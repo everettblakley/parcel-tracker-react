@@ -25,6 +25,5 @@ describe("Location", () => {
   });
   test("can build from a string", () => {
     const stringLocation = "SOMEPLACE, EARTH";
-
   });
 })

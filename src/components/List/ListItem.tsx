@@ -1,5 +1,6 @@
+import { DateTime } from "luxon";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaFlag } from "react-icons/fa";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { Color, percentShift } from "src/utilities/colour.utilities";
@@ -85,7 +86,7 @@ export const EventView = observer(function EventView({
         <>
           <h4 className="is-size-6">{event.status}</h4>
           <p className="is-size-7">
-            {event.timestamp.format("MMM Do, YYYY [at] h:mm a")}
+            {event.timestamp.toLocaleString(DateTime.DATETIME_MED)}
           </p>
         </>
       }
@@ -104,34 +105,38 @@ export const ListItem = observer(function StopView({
 }) {
   const store = useStore();
 
-  const [displayEvents, setDisplayEvents] = useState(false);
-  const [title] = useState(() => {
+  const displayEvents = useMemo(() => {
+    return !!stop.location?.toString();
+  }, [stop]);
+  const title = useMemo(() => {
     const location = stop?.location?.toString();
     if (location) {
-      setDisplayEvents(true);
       return location;
     } else if (stop.events.length > 0) {
-      setDisplayEvents(false);
       return stop.events[0].status;
     }
     return stop.startDate.toString();
-  });
+  }, [stop]);
 
-  const [date] = useState(() => {
-    let dateString = stop.startDate.format("MMM Do, YYYY");
+  const date = useMemo(() => {
+    const { startDate, endDate } = stop;
+    const parts = [];
     if (stop.events.length === 1) {
-      if (!stop.location) {
-        dateString += stop.startDate.format(" h:mm a");
+      if (stop.location) {
+        parts.push(startDate.toLocaleString(DateTime.DATE_MED));
+      } else {
+        parts.push(startDate.toLocaleString(DateTime.DATETIME_MED));
       }
-      return dateString;
+    } else {
+      parts.push(startDate.toLocaleString(DateTime.DATE_MED));
     }
-    if (stop.endDate) {
-      if (!stop.endDate.isSame(stop.startDate, "day")) {
-        dateString += stop.endDate.format(" [-] MMM Do, YYYY");
+    if (endDate) {
+      if (!endDate.hasSame(startDate, "day")) {
+        parts.push(endDate.toLocaleString(DateTime.DATE_MED));
       }
     }
-    return dateString;
-  });
+    return parts.join(" - ");
+  }, [stop]);
 
   const handleSelect = () => (store.selectedStop = stop);
 

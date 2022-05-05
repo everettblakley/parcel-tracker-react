@@ -50,9 +50,9 @@ describe("parseParcelData", () => {
     const event = stop.events[0];
     expect(stop.startDate).toStrictEqual(event.timestamp);
     expect(stop.endDate).toBeUndefined();
-    expect(event.timestamp.year()).toBe(2020);
-    expect(event.timestamp.format("D")).toBe("1");
-    expect(event.timestamp.month()).toBe(4);
+    expect(event.timestamp.year).toBe(2020);
+    expect(event.timestamp.day).toBe(1);
+    expect(event.timestamp.month).toBe(4);
     expect(event.status).toBe("Delivered");
     expect(event.location).toBe("LETHBRIDGE, AB");
   });

@@ -1,22 +1,23 @@
-import { MapiResponse } from '@mapbox/mapbox-sdk/lib/classes/mapi-response';
-import { Feature, Point, point } from '@turf/helpers';
-import { toJS } from 'mobx';
-import moment from 'moment';
+import { MapiResponse } from "@mapbox/mapbox-sdk/lib/classes/mapi-response";
+import { Feature, Point, point } from "@turf/helpers";
+import { toJS } from "mobx";
+import { DateTime } from "luxon";
+
 import {
   Location,
   ParcelData,
   RawParcelData,
   RawTrackingEvent,
   Stop,
-  TrackingEvent
-} from '../models';
-import { getColor } from './colour.utilities';
-import { geocoding, mapbox, mapboxSdk } from './mapbox';
-import { replaceUnderScores, toSentenceCase } from './text.utilities';
+  TrackingEvent,
+} from "../models";
+import { getColor } from "./colour.utilities";
+import { geocoding, mapbox, mapboxSdk } from "./mapbox";
+import { replaceUnderScores, toSentenceCase } from "./text.utilities";
 
 export const courierName = (name?: string) => {
   if (!name) {
-    return '';
+    return "";
   }
   name = replaceUnderScores(name);
   name = toSentenceCase(name);
@@ -44,7 +45,7 @@ export const parseTrackingEvents = (
 ): TrackingEvent[] => {
   const events = rawEvents.map((t: any) => {
     const event: TrackingEvent = {
-      timestamp: moment.utc(t.timestamp, 'YYYY-MM-DDTHH:mm:ssZZ'),
+      timestamp: DateTime.fromISO(t.timestamp),
       status: t.status,
       location: Location.isLocation(t.location)
         ? new Location(t.location)
@@ -81,7 +82,7 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
       let nextEvent = data[spliceIndex];
 
       do {
-        const nextLocation = nextEvent?.location?.toString() || '';
+        const nextLocation = nextEvent?.location?.toString() || "";
         locations.add(nextLocation);
         spliceIndex += 1;
         nextEvent = data[spliceIndex];
@@ -122,7 +123,7 @@ export const getGeolocation = async (
       query: location.toString(),
       autocomplete: false,
       limit: 1,
-      mode: 'mapbox.places',
+      mode: "mapbox.places",
     })
     .send()
     .then((response: MapiResponse) => {
@@ -134,7 +135,7 @@ export const getGeolocation = async (
       ) {
         const feature = response.body.features[0];
         if (!feature.coordinates) {
-          if ('geometry' in (feature as any)) {
+          if ("geometry" in (feature as any)) {
             feature.coordinates = feature.geometry.coordinates;
           }
         }

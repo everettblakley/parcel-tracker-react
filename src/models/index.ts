@@ -1,6 +1,6 @@
-import { Feature, Point } from '@turf/helpers';
+import { Feature, Point } from "@turf/helpers";
+import { DateTime } from "luxon";
 import { Color } from "../utilities/colour.utilities";
-import { Moment } from "moment";
 import { toSentenceCase } from "../utilities";
 
 export class Location {
@@ -19,25 +19,31 @@ export class Location {
   }
 
   toString(): string {
-    return [this.city, this.state, this.country, this.postalCode].filter(Boolean).join(", ");
+    return [this.city, this.state, this.country, this.postalCode]
+      .filter(Boolean)
+      .join(", ");
   }
 
   static isLocation(location: Partial<Location>): location is Location {
-    const l = (location as Location);
-    return l.city !== undefined ||
+    const l = location as Location;
+    return (
+      l.city !== undefined ||
       l.country !== undefined ||
       l.postalCode !== undefined ||
-      l.state !== undefined;
+      l.state !== undefined
+    );
   }
 }
 
-
-export type RawTrackingEvent = Record<string, string | Record<string, string | undefined>>;
+export type RawTrackingEvent = Record<
+  string,
+  string | Record<string, string | undefined>
+>;
 
 export type RawParcelData = Record<string, RawTrackingEvent[]>;
 
 export interface TrackingEvent {
-  timestamp: Moment;
+  timestamp: DateTime;
   status: string;
   location?: string | Location;
 }
@@ -49,11 +55,11 @@ export interface ParcelData {
 }
 
 export interface Stop {
-  startDate: Moment;
-  endDate?: Moment;
+  startDate: DateTime;
+  endDate?: DateTime;
   events: TrackingEvent[];
   location?: Location | string;
   selected: boolean;
-  feature?: Feature<Point>
+  feature?: Feature<Point>;
   color?: Color;
 }
