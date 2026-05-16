@@ -2,6 +2,7 @@
   "name": "parcel-tracker",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.28.2",
   "dependencies": {
     "@creativebulma/bulma-collapsible": "^1.0.4",
     "@danmarshall/deckgl-typings": "^4.5.1",
