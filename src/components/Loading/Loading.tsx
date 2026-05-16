@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { ImSpinner2 } from "react-icons/im";
-import "./Loading.scss";
+import "./Loading.css";
 
 export const Loading = observer(function Loading({
   isLoading,

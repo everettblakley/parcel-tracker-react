@@ -16,7 +16,7 @@
     transform: translate(-50%);
   }
 
-  .Form-content {
+  & .Form-content {
     display: flex;
     flex-direction: column;
     text-align: start;

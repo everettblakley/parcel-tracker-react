@@ -1,5 +1,5 @@
-import { WebMercatorViewport } from '@deck.gl/core';
-import { ViewStateProps } from '@deck.gl/core/lib/deck';
+import { WebMercatorViewport } from 'deck.gl';
+import type { ViewStateProps } from '@deck.gl/core/lib/deck';
 import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';

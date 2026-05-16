@@ -6,7 +6,7 @@ import { RiMapPin2Fill } from "react-icons/ri";
 import { Color, percentShift } from "src/utilities/colour.utilities";
 import { Stop, TrackingEvent } from "../../models";
 import { useStore } from "../../stores/store.context";
-import "./ListItem.scss";
+import "./ListItem.css";
 
 const useSelectedProp = (selected: boolean): string => {
   const [selectedClass, setSelectedClass] = useState(() =>

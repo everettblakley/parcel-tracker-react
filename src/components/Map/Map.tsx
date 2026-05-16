@@ -1,4 +1,4 @@
-import { ViewStateProps } from "@deck.gl/core/lib/deck";
+import type { ViewStateProps } from "@deck.gl/core/lib/deck";
 import DeckGL, { FlyToInterpolator } from "deck.gl";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { Arc } from "../../stores/root.store";
 import { useStore } from "../../stores/store.context";
 import { Drawer } from "../Drawer";
 import { Form } from "../Form";
-import "./Map.scss";
+import "./Map.css";
 
 const INITIAL_VIEW_STATE = {
   longitude: 0,
