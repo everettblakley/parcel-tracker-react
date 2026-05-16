@@ -1,0 +1,9 @@
+ignoredBuiltDependencies:
+  - '@danmarshall/deckgl-typings'
+
+onlyBuiltDependencies:
+  - core-js
+  - core-js-pure
+  - ejs
+  - fsevents
+  - node-sass
