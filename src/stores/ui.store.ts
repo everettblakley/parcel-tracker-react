@@ -43,7 +43,7 @@ export class UIStore {
 
     // Open the drawer whenever the root store data changes
     autorun(() => {
-      if (this.rootStore.parcelData !== []) {
+      if (this.rootStore.parcelData.length > 0) {
         runInAction(() => this.drawerOpen = true);
       } else {
         runInAction(() => this.drawerOpen = false);
