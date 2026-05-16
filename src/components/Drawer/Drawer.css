@@ -8,20 +8,23 @@
   flex-direction: column;
   align-items: center;
 
-  button {
+  & button {
     width: 100%;
-    > svg.Drawer-button {
+
+    & > svg.Drawer-button {
       transition: all 200ms ease-in-out;
+
       &.Drawer-button__closed {
         transform: rotate(0deg);
       }
+
       &.Drawer-button__open {
         transform: rotate(180deg);
       }
     }
   }
 
-  .Drawer-content {
+  & .Drawer-content {
     transition: all 200ms ease-in-out;
     width: 100%;
     overflow-x: hidden;

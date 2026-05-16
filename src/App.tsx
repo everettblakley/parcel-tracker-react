@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
-import "./App.scss";
+import "./App.css";
 import { Loading } from "./components/Loading";
 import { Map } from "./components/Map";
 import { Sidebar } from "./components/Sidebar";

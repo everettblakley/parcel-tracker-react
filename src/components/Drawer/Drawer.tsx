@@ -5,7 +5,7 @@ import { FaCaretUp } from "react-icons/fa";
 import { useStore } from "../../stores/store.context";
 import { Footer } from "../Footer";
 import { ListContent } from "../List";
-import "./Drawer.scss";
+import "./Drawer.css";
 
 export const Drawer = observer(function Drawer() {
   const store = useStore();

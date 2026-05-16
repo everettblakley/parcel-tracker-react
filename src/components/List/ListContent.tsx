@@ -25,7 +25,7 @@ export const ListContent = observer(function ListContent() {
   ) : (
     <>
       <About />
-      {process.env.NODE_ENV === "development" && <Examples />}
+      {import.meta.env.DEV && <Examples />}
     </>
   );
 });

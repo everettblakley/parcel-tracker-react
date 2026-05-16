@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
+@import "bulma/css/bulma.min.css";
+@import "bulma-extensions/bulma-timeline/dist/css/bulma-timeline.min.css";
+@import "@creativebulma/bulma-collapsible/dist/css/bulma-collapsible.min.css";
+
+pre {
+  white-space: pre-wrap;
+  text-align: left;
+  word-break: break-word;
+}
+
+html {
+  overflow: hidden;
+}

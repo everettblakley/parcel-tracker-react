@@ -1,5 +1,5 @@
-import { WebMercatorViewport } from '@deck.gl/core';
-import { ViewStateProps } from '@deck.gl/core/lib/deck';
+import { WebMercatorViewport } from 'deck.gl';
+import type { ViewStateProps } from '@deck.gl/core/lib/deck';
 import bbox from '@turf/bbox';
 import bboxPolygon from '@turf/bbox-polygon';
 import { Feature, featureCollection, Point, Polygon } from '@turf/helpers';
@@ -52,7 +52,7 @@ export class RootStore {
     this.isLoading = true;
     this.errorMessage = '';
     this.trackingNumber = trackingNumber;
-    const url = process.env.REACT_APP_API_URL + '/' + trackingNumber;
+    const url = import.meta.env.VITE_API_URL + '/' + trackingNumber;
     fetch(url)
       .then((response: Response) => {
         if (response.ok) {

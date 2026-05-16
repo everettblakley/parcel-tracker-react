@@ -113,11 +113,11 @@ export const parseStops = async (events: TrackingEvent[]): Promise<Stop[]> => {
 export const getGeolocation = async (
   location: string
 ): Promise<Feature<Point> | undefined> => {
-  const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
-  const geocodingClient = geocoding(mapboxClient);
-  if (!geocodingClient || !location) {
+  if (!mapbox.accessToken || !location) {
     return undefined;
   }
+  const mapboxClient = mapboxSdk({ accessToken: mapbox.accessToken });
+  const geocodingClient = geocoding(mapboxClient);
   return geocodingClient
     .forwardGeocode({
       query: location.toString(),

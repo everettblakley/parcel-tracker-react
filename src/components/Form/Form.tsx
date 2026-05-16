@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useQueryParams } from "../../hooks";
 import { useStore } from "../../stores/store.context";
-import "./Form.scss";
+import "./Form.css";
 
 export const Form = observer(function Form() {
   // Hooks

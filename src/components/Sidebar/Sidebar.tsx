@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Footer } from "../Footer";
 import { ListContent } from "../List";
-import "./Sidebar.scss";
+import "./Sidebar.css";
 
 export const Sidebar = observer(function Sidebar() {
   return (
