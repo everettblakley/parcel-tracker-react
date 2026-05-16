@@ -1,13 +1,7 @@
-// @ts-ignore
-import mapbox from "mapbox-gl/dist/mapbox-gl";
-import * as mapboxSdk from "@mapbox/mapbox-sdk";
+import mapboxgl from "mapbox-gl";
+import mapboxSdk from "@mapbox/mapbox-sdk";
 import geocoding from "@mapbox/mapbox-sdk/services/geocoding";
 
-const accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string;
 
-mapbox.accessToken = accessToken as string;
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-mapbox.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
-
-export { mapbox, mapboxSdk, geocoding };
+export { mapboxgl as mapbox, mapboxSdk, geocoding };

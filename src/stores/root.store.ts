@@ -52,7 +52,7 @@ export class RootStore {
     this.isLoading = true;
     this.errorMessage = '';
     this.trackingNumber = trackingNumber;
-    const url = process.env.REACT_APP_API_URL + '/' + trackingNumber;
+    const url = import.meta.env.VITE_API_URL + '/' + trackingNumber;
     fetch(url)
       .then((response: Response) => {
         if (response.ok) {

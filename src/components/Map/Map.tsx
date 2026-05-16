@@ -63,7 +63,7 @@ export const Map = observer(function Map() {
             width="100%"
             height="100%"
             mapStyle="mapbox://styles/everettblakley/ckf65ncr70a2i19pl8u7wgpi9"
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN || ""}
+            mapboxApiAccessToken={import.meta.env.VITE_MAPBOX_TOKEN || ""}
           />
         </DeckGL>
       </section>

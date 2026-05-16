@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,14 +10,13 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "importHelpers": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": ["src"],
-  "exclude": ["*.stories.tsx", "*.test*"]
+  "include": ["src"]
 }

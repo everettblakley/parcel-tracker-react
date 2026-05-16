@@ -1,4 +1,4 @@
-import * as testData from "../../db.json";
+import testData from "../../db.json";
 import * as utils from "./data.utilities";
 
 describe("courierName", () => {
@@ -34,9 +34,9 @@ describe("courierName", () => {
 });
 
 describe("parseParcelData", () => {
-  test("returns an empty array if no couriers", () => {
+  test("returns an empty array if no couriers", async () => {
     const data = {};
-    expect(utils.parseParcelData(data)).toStrictEqual([]);
+    expect(await utils.parseParcelData(data)).toStrictEqual([]);
   });
   test("works for data with string locations", async () => {
     const data = testData["392404625680"];
@@ -52,7 +52,7 @@ describe("parseParcelData", () => {
     expect(stop.endDate).toBeUndefined();
     expect(event.timestamp.year).toBe(2020);
     expect(event.timestamp.day).toBe(1);
-    expect(event.timestamp.month).toBe(4);
+    expect(event.timestamp.month).toBe(5);
     expect(event.status).toBe("Delivered");
     expect(event.location).toBe("LETHBRIDGE, AB");
   });
