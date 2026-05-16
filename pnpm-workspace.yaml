@@ -6,4 +6,3 @@ onlyBuiltDependencies:
   - core-js-pure
   - ejs
   - fsevents
-  - node-sass

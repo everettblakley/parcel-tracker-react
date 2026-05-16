@@ -75,8 +75,8 @@ importers:
         specifier: ^8.3.14
         version: 8.4.10(@loaders.gl/core@2.3.13)(@loaders.gl/images@2.3.13)(@luma.gl/engine@8.4.4)(@luma.gl/gltools@8.4.4)(@luma.gl/webgl@8.4.4)(gl-matrix@3.4.4)(react-dom@17.0.1(react@17.0.1))(react@17.0.1)
       luxon:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: 3.2.1
+        version: 3.2.1
       mapbox-gl:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1713,8 +1713,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  luxon@2.3.2:
-    resolution: {integrity: sha512-MlAQQVMFhGk4WUA6gpfsy0QycnKP0+NlCBJRVRNPxxSIbjrCbQ65nrpJD3FVyJNZLuJ0uoqL57ye6BmDYgHaSw==}
+  luxon@3.2.1:
+    resolution: {integrity: sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==}
     engines: {node: '>=12'}
 
   lz-string@1.4.4:
@@ -4174,7 +4174,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  luxon@2.3.2: {}
+  luxon@3.2.1: {}
 
   lz-string@1.4.4: {}
 
