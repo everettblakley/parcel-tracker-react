@@ -8,3 +8,7 @@ pre {
   text-align: left;
   word-break: break-word;
 }
+
+html {
+  overflow: hidden;
+}
